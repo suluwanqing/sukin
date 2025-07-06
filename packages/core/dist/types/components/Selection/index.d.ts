@@ -1,20 +1,22 @@
 export declare const SuSelection: {
     new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('packages/core').SuSelectionProps> & Readonly<{
-        onChange?: ((value: any) => any) | undefined;
-        "onUpdate:modelValue"?: ((value: any) => any) | undefined;
+        onChange?: ((value: string | string[] | null | undefined) => any) | undefined;
+        "onUpdate:modelValue"?: ((value: string | string[] | null | undefined) => any) | undefined;
     }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
-        change: (value: any) => any;
-        "update:modelValue": (value: any) => any;
+        change: (value: string | string[] | null | undefined) => any;
+        "update:modelValue": (value: string | string[] | null | undefined) => any;
     }, import('vue').PublicProps, {
-        size: "large" | "default" | "small";
-        mode: "box" | "dropdown" | "list";
+        size: import('packages/core').SelectionSize;
+        mode: import('packages/core').SelectionMode;
         disabled: boolean;
         items: import('packages/core').SelectionItem[];
         placeholder: string;
         multiple: boolean;
-        shape: "round" | "square";
+        shape: import('packages/core').SelectionShape;
+        clearable: boolean;
     }, false, {}, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, {
         selectionRef: HTMLDivElement;
+        selectionPanelRef: HTMLDivElement;
     }, HTMLDivElement, import('vue').ComponentProvideOptions, {
         P: {};
         B: {};
@@ -23,33 +25,35 @@ export declare const SuSelection: {
         M: {};
         Defaults: {};
     }, Readonly<import('packages/core').SuSelectionProps> & Readonly<{
-        onChange?: ((value: any) => any) | undefined;
-        "onUpdate:modelValue"?: ((value: any) => any) | undefined;
+        onChange?: ((value: string | string[] | null | undefined) => any) | undefined;
+        "onUpdate:modelValue"?: ((value: string | string[] | null | undefined) => any) | undefined;
     }>, {}, {}, {}, {}, {
-        size: "large" | "default" | "small";
-        mode: "box" | "dropdown" | "list";
+        size: import('packages/core').SelectionSize;
+        mode: import('packages/core').SelectionMode;
         disabled: boolean;
         items: import('packages/core').SelectionItem[];
         placeholder: string;
         multiple: boolean;
-        shape: "round" | "square";
+        shape: import('packages/core').SelectionShape;
+        clearable: boolean;
     }>;
     __isFragment?: never;
     __isTeleport?: never;
     __isSuspense?: never;
 } & import('vue').ComponentOptionsBase<Readonly<import('packages/core').SuSelectionProps> & Readonly<{
-    onChange?: ((value: any) => any) | undefined;
-    "onUpdate:modelValue"?: ((value: any) => any) | undefined;
+    onChange?: ((value: string | string[] | null | undefined) => any) | undefined;
+    "onUpdate:modelValue"?: ((value: string | string[] | null | undefined) => any) | undefined;
 }>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
-    change: (value: any) => any;
-    "update:modelValue": (value: any) => any;
+    change: (value: string | string[] | null | undefined) => any;
+    "update:modelValue": (value: string | string[] | null | undefined) => any;
 }, string, {
-    size: "large" | "default" | "small";
-    mode: "box" | "dropdown" | "list";
+    size: import('packages/core').SelectionSize;
+    mode: import('packages/core').SelectionMode;
     disabled: boolean;
     items: import('packages/core').SelectionItem[];
     placeholder: string;
     multiple: boolean;
-    shape: "round" | "square";
+    shape: import('packages/core').SelectionShape;
+    clearable: boolean;
 }, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & import('vue').Plugin;
 export * from './type';

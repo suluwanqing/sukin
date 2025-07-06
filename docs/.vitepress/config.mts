@@ -52,7 +52,7 @@ export default defineConfig({
         text: "选项",
         collapsed: false,
         items: [
-          { text: "下拉选择", link: "components/selection" },
+          { text: "下拉选择", link: 'components/selection' },
         ]
       }
     ],

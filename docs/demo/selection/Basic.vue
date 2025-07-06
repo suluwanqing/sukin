@@ -1,18 +1,54 @@
 <template>
-    <div>
-        <p style="margin-bottom: 8px;">当前选中: {{ selectedValue }}</p>
-        <su-selection v-model="selectedValue" :items="options" />
+    <div class="demo-wrapper">
+        <p>当前值: {{ value || '无' }}</p>
+        <SuSelection v-model="value" :items="basicOptionsData" mode="box" />
+        <button @click="value = 'shanghai'">设为上海</button>
+        <button @click="value = null">清空</button>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
+import { SuSelection } from 'sukin'; 
+import { basicOptionsData } from './data'; 
 
-const selectedValue = ref('vue');
-
-const options = [
-    { label: 'Vue', value: 'vue' },
-    { label: 'React', value: 'react' },
-    { label: 'Angular', value: 'angular' },
-];
+const value = ref < string | null > ('beijing');
 </script>
+
+<style scoped>
+.demo-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 8px;
+    margin-top: 16px;
+}
+
+p {
+    font-size: 14px;
+    color: var(--vp-c-text-2);
+    margin: 0;
+}
+
+.su-selection {
+    max-width: 400px;
+}
+
+button {
+    padding: 8px 12px;
+    background-color: var(--vp-c-brand-1);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+    margin-right: 8px;
+}
+
+button:hover {
+    background-color: var(--vp-c-brand-2);
+}
+</style>

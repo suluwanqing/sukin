@@ -1,211 +1,320 @@
 <template>
-    <div class="demo-page-wrapper">
-        <div class="demo-container">
-            <header class="demo-header">
-                <h1 class="demo-title">SuSelection 组件展示</h1>
-                <p class="demo-subtitle">一个支持盒子、下拉、列表和分组的灵活选择器</p>
-            </header>
+    <div id="app">
+        <h1>SuSelection 组件示例</h1>
 
-            <!-- 示例一：盒子模式 -->
-            <section class="demo-section">
-                <div class="section-header">
-                    <h2 class="section-title">1. 盒子模式 (Box Mode)</h2>
-                    <p class="section-description">
-                        默认模式，适合标签云、技能选择等场景。通过在 `items` 数组中加入 `{type: 'group', ...}` 来实现分组。
-                    </p>
-                </div>
-                <div class="component-display">
-                    <SuSelection v-model="boxSelection" :items="projectTools" multiple size="default" shape="square" />
-                </div>
-                <div class="feedback">
-                    <span class="feedback-label">v-model:</span>
-                    <code>{{ JSON.stringify(boxSelection) }}</code>
-                </div>
-            </section>
+        <div class="section">
+            <h2>1. 单选模式 (Dropdown, 默认值, 清除功能)</h2>
+            <p>当前值: `{{ singleValue || '无' }}`</p>
+            <SuSelection v-model="singleValue" :items="basicOptions" placeholder="请选择一个城市" clearable mode="dropdown"
+                @change="logChange('单选', $event)" />
+            <button @click="singleValue = 'beijing'">设为北京</button>
+            <button @click="singleValue = 'shanghai'">设为上海</button>
+            <button @click="singleValue = null">清空</button>
+        </div>
 
-            <!-- 示例二：下拉菜单模式 (原生外观) -->
-            <section class="demo-section">
-                <div class="section-header">
-                    <h2 class="section-title">2. 下拉菜单模式 (Dropdown Mode)</h2>
-                    <p class="section-description">
-                        设置 `mode="dropdown"`，其外观和行为完全模拟原生。单选后会自动关闭。
-                    </p>
-                </div>
-                <div class="component-display">
-                    <SuSelection v-model="dropdownSelection" :items="officeSupplies" mode="dropdown" size="large"
-                        placeholder="选择办公用品..." />
-                </div>
-                <div class="feedback">
-                    <span class="feedback-label">v-model:</span>
-                    <code>{{ JSON.stringify(dropdownSelection) }}</code>
-                </div>
-            </section>
+        <div class="section">
+            <h2>2. 多选模式 (Dropdown, 默认值, 清除功能)</h2>
+            <p>当前值: `{{ multipleValues.join(', ') || '无' }}`</p>
+            <SuSelection v-model="multipleValues" :items="basicOptions" multiple placeholder="请选择多个城市" clearable
+                mode="dropdown" @change="logChange('多选', $event)" />
+            <button @click="multipleValues = ['beijing', 'shanghai']">设为北京和上海</button>
+            <button @click="multipleValues = []">清空</button>
+        </div>
 
-            <!-- 示例三：列表模式 -->
-            <section class="demo-section">
-                <div class="section-header">
-                    <h2 class="section-title">3. 列表模式 (List Mode)</h2>
-                    <p class="section-description">
-                        设置 `mode="list"`，呈现为一个可垂直滚动的列表框，适合在固定区域内进行多选。
-                    </p>
-                </div>
-                <div class="component-display">
-                    <SuSelection v-model="listSelection" :items="projectTools" mode="list" multiple />
-                </div>
-                <div class="feedback">
-                    <span class="feedback-label">v-model:</span>
-                    <code>{{ JSON.stringify(listSelection) }}</code>
-                </div>
-            </section>
+        <div class="section">
+            <h2>3. 禁用模式 (Dropdown)</h2>
+            <p>单选 (禁用):</p>
+            <SuSelection v-model="singleValue" :items="basicOptions" disabled placeholder="此组件已禁用" mode="dropdown" />
+            <p>多选 (禁用):</p>
+            <SuSelection v-model="multipleValues" :items="basicOptions" multiple disabled placeholder="此组件已禁用"
+                mode="dropdown" />
+        </div>
+
+        <div class="section">
+            <h2>4. 不同尺寸 (Dropdown)</h2>
+            <p>Small:</p>
+            <SuSelection v-model="singleValueSize" :items="basicOptions" size="small" placeholder="小尺寸"
+                mode="dropdown" />
+            <p>Default:</p>
+            <SuSelection v-model="singleValueSize" :items="basicOptions" size="default" placeholder="默认尺寸"
+                mode="dropdown" />
+            <p>Large:</p>
+            <SuSelection v-model="singleValueSize" :items="basicOptions" size="large" placeholder="大尺寸"
+                mode="dropdown" />
+        </div>
+
+        <div class="section">
+            <h2>5. 不同形状 (Dropdown)</h2>
+            <p>Round (默认):</p>
+            <SuSelection v-model="singleValueShape" :items="basicOptions" shape="round" placeholder="圆形"
+                mode="dropdown" />
+            <p>Square:</p>
+            <SuSelection v-model="singleValueShape" :items="basicOptions" shape="square" placeholder="方形"
+                mode="dropdown" />
+        </div>
+
+        <div class="section">
+            <h2>6. Box 模式 (类似按钮组/标签选择器)</h2>
+            <p>当前值: `{{ boxValues.join(', ') || '无' }}`</p>
+            <SuSelection v-model="boxValues" :items="basicOptions" multiple mode="box" />
+            <button @click="boxValues = ['beijing', 'hangzhou']">设为北京和杭州</button>
+            <button @click="boxValues = []">清空</button>
+        </div>
+
+        <div class="section">
+            <h2>7. 包含禁用选项和分组 (Dropdown 模式)</h2>
+            <p>当前值: `{{ groupedValues.join(', ') || '无' }}`</p>
+            <SuSelection v-model="groupedValues" :items="groupedOptions" multiple clearable placeholder="请选择 (含分组)"
+                mode="dropdown" @change="logChange('分组多选', $event)" />
+            <button @click="groupedValues = ['shanghai', 'chengdu']">设为上海和成都</button>
+            <button @click="groupedValues = []">清空</button>
+        </div>
+
+        <div class="section">
+            <h2>8. 默认无选中 (Dropdown)</h2>
+            <p>当前值: `{{ noDefaultValue || '无' }}`</p>
+            <SuSelection v-model="noDefaultValue" :items="basicOptions" placeholder="默认无选中" mode="dropdown" />
+        </div>
+
+        <div class="section">
+            <h2>9. 联动选择器 (省市县三级联动)</h2>
+            <p>已选: {{ selectedProvinceLabel || '无' }} > {{ selectedCityLabel || '无' }} > {{ selectedDistrictLabel || '无'
+                }}</p>
+            <div class="linked-selectors">
+                <SuSelection :modelValue="selectedProvince" @update:modelValue="handleProvinceChange"
+                    :items="provinceOptions" placeholder="请选择省份" mode="dropdown" />
+                <SuSelection :modelValue="selectedCity" @update:modelValue="handleCityChange" :items="cityOptions"
+                    placeholder="请选择城市" mode="dropdown" :disabled="!selectedProvince" />
+                <SuSelection :modelValue="selectedDistrict" @update:modelValue="selectedDistrict = $event"
+                    :items="districtOptions" placeholder="请选择区县" mode="dropdown" :disabled="!selectedCity" />
+            </div>
+            <button @click="resetLinkedSelectors">重置联动选择</button>
+        </div>
+
+        <div class="section">
+            <button @click="resetAll">重置所有示例</button>
         </div>
     </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-// 模拟从您的库中导入组件
-import { SuSelection } from "sukin";
+<script setup>
+import { ref, computed } from 'vue';
+import { SuSelection } from 'sukin'; // <<< 关键：只导入 SuSelection
 
-// --- 盒子模式数据 ---
-const boxSelection = ref<string[]>(['figma', 'vscode']);
-
-// --- 下拉模式数据 ---
-const dropdownSelection = ref<string | null>('pen');
-
-// --- 列表模式数据 ---
-const listSelection = ref<string[]>(['github']);
-
-// --- 通用数据源 ---
-
-// 用于盒子模式和列表模式的数据
-const projectTools = [
-    { type: 'group', label: '设计工具' },
-    { value: 'figma', label: 'Figma' },
-    { value: 'sketch', label: 'Sketch' },
-    { value: 'photoshop', label: 'Photoshop' },
-    { type: 'group', label: '开发与协作' },
-    { value: 'vscode', label: 'VS Code' },
-    { value: 'github', label: 'GitHub' },
-    { value: 'jira', label: 'Jira' },
-    { value: 'slack', label: 'Slack', disabled: true },
+// --- 示例数据 ---
+const basicOptions = [
+    { label: '北京', value: 'beijing' },
+    { label: '上海', value: 'shanghai' },
+    { label: '广州', value: 'guangzhou' },
+    { label: '深圳', value: 'shenzhen', disabled: true }, // 禁用项
+    { label: '杭州', value: 'hangzhou' },
 ];
 
-// 用于下拉模式的数据
-const officeSupplies = [
-    { type: 'group', label: '书写工具' },
-    { value: 'pen', label: '🖊️ 钢笔' },
-    { value: 'pencil', label: '✏️ 铅笔' },
-    { value: 'marker', label: '记号笔' },
-    { type: 'group', label: '办公设备' },
-    { value: 'printer', label: '打印机' },
-    { value: 'scanner', label: '扫描仪 (禁用)', disabled: true },
-    { value: 'projector', label: '投影仪' },
+const groupedOptions = [
+    {
+        label: '直辖市',
+        options: [
+            { label: '北京', value: 'beijing' },
+            { label: '上海', value: 'shanghai' },
+            { label: '天津', value: 'tianjin', disabled: true },
+            { label: '重庆', value: 'chongqing' },
+        ]
+    },
+    {
+        label: '省会城市',
+        options: [
+            { label: '广州', value: 'guangzhou' },
+            { label: '深圳', value: 'shenzhen' },
+            { label: '杭州', value: 'hangzhou' },
+            { label: '成都', value: 'chengdu' },
+        ]
+    },
+    { label: '其他城市', value: 'other' },
 ];
+
+// --- 联动选择器数据 ---
+const regionsData = [
+    {
+        value: 'gd', label: '广东省', children: [
+            {
+                value: 'gz', label: '广州市', children: [
+                    { value: 'th', label: '天河区' },
+                    { value: 'hy', label: '海珠区' },
+                ]
+            },
+            {
+                value: 'sz', label: '深圳市', children: [
+                    { value: 'ft', label: '福田区' },
+                    { value: 'lh', label: '罗湖区' },
+                ]
+            },
+        ]
+    },
+    {
+        value: 'zj', label: '浙江省', children: [
+            {
+                value: 'hz', label: '杭州市', children: [
+                    { value: 'xh', label: '西湖区' },
+                    { value: 'xd', label: '萧山区' },
+                ]
+            },
+            {
+                value: 'nb', label: '宁波市', children: [
+                    { value: 'jy', label: '江北区' },
+                    { value: 'yh', label: '鄞州区' },
+                ]
+            },
+        ]
+    },
+];
+
+
+// --- 响应式数据 ---
+const singleValue = ref('shanghai');
+const multipleValues = ref(['beijing', 'guangzhou']);
+const singleValueSize = ref(null);
+const singleValueShape = ref(null);
+const boxValues = ref(['hangzhou']);
+const groupedValues = ref(['chongqing', 'chengdu']);
+const noDefaultValue = ref(null);
+
+// 联动选择器的数据
+const selectedProvince = ref(null);
+const selectedCity = ref(null);
+const selectedDistrict = ref(null);
+
+
+// --- 联动选择器 computed 属性 ---
+const provinceOptions = computed(() => {
+    return regionsData.map(p => ({ label: p.label, value: p.value }));
+});
+
+const cityOptions = computed(() => {
+    if (!selectedProvince.value) {
+        return [];
+    }
+    const province = regionsData.find(p => p.value === selectedProvince.value);
+    return province ? province.children.map(c => ({ label: c.label, value: c.value })) : [];
+});
+
+const districtOptions = computed(() => {
+    if (!selectedCity.value) {
+        return [];
+    }
+    const province = regionsData.find(p => p.value === selectedProvince.value);
+    if (!province) {
+        return [];
+    }
+    const city = province.children.find(c => c.value === selectedCity.value);
+    return city ? city.children.map(d => ({ label: d.label, value: d.value })) : [];
+});
+
+// 显示联动选择器的选中文本
+const selectedProvinceLabel = computed(() => provinceOptions.value.find(p => p.value === selectedProvince.value)?.label);
+const selectedCityLabel = computed(() => cityOptions.value.find(c => c.value === selectedCity.value)?.label);
+const selectedDistrictLabel = computed(() => districtOptions.value.find(d => d.value === selectedDistrict.value)?.label);
+
+
+// --- 方法 ---
+const logChange = (type, value) => {
+    console.log(`${type} change 事件触发，新值:`, value);
+};
+
+// 联动选择器的处理函数
+const handleProvinceChange = (value) => {
+    selectedProvince.value = value;
+    selectedCity.value = null; // 省份变化，清空城市和区县
+    selectedDistrict.value = null;
+};
+
+const handleCityChange = (value) => {
+    selectedCity.value = value;
+    selectedDistrict.value = null; // 城市变化，清空区县
+};
+
+const resetLinkedSelectors = () => {
+    selectedProvince.value = null;
+    selectedCity.value = null;
+    selectedDistrict.value = null;
+    console.log('联动选择器已重置！');
+};
+
+const resetAll = () => {
+    singleValue.value = 'shanghai';
+    multipleValues.value = ['beijing', 'guangzhou'];
+    singleValueSize.value = null;
+    singleValueShape.value = null;
+    boxValues.value = ['hangzhou'];
+    groupedValues.value = ['chongqing', 'chengdu'];
+    noDefaultValue.value = null;
+    resetLinkedSelectors(); // 重置联动选择器
+    console.log('所有示例已重置！');
+};
 </script>
 
-<style scoped>
-/* 全局页面包裹层，提供一个柔和的背景色 */
-.demo-page-wrapper {
-    background-color: #f4f7f9;
-    padding: 40px 20px;
-    min-height: 100vh;
-}
-
-/* 主容器，居中并设置最大宽度 */
-.demo-container {
-    max-width: 800px;
-    margin: 0 auto;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-/* 页面头部样式 */
-.demo-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.demo-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1a202c;
-    margin: 0;
-}
-
-.demo-subtitle {
-    font-size: 1.1rem;
-    color: #718096;
-    margin-top: 10px;
-}
-
-/* 卡片式示例区域 */
-.demo-section {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 28px 32px;
-    margin-bottom: 32px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease-in-out;
-    border: 1px solid #e2e8f0;
-}
-
-/* 鼠标悬浮在卡片上的效果，增加交互感 */
-.demo-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
-
-/* 区域头部，包含标题和描述 */
-.section-header {
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.section-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin: 0 0 8px 0;
-}
-
-.section-description {
-    font-size: 1rem;
-    color: #4a5568;
-    line-height: 1.6;
-    margin: 0;
-}
-
-/* 组件展示区域 */
-.component-display {
-    padding: 16px 0;
-}
-
-/* 反馈框，用于显示 v-model 的值 */
-.feedback {
-    margin-top: 20px;
-    padding: 12px 16px;
-    background-color: #f7fafc;
-    border-radius: 8px;
-    border: 1px solid #e8edf3;
-    color: #4a5568;
-    font-size: 0.9rem;
+<style>
+/* App.vue 的基本样式 */
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+    margin-top: 60px;
+    padding: 20px;
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 30px;
 }
 
-.feedback-label {
-    font-weight: 500;
-    color: #718096;
+.section {
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
-/* 代码样式，用于显示 JSON 数据 */
-.feedback code {
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    color: #2d3748;
-    font-weight: 600;
-    background-color: rgba(0, 123, 255, 0.05);
-    padding: 2px 6px;
+.section h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 10px;
+}
+
+.section p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.su-selection {
+    margin-bottom: 15px;
+    margin-right: 10px;
+}
+
+.linked-selectors {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    /* 允许在小屏幕上换行 */
+}
+
+button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    background-color: #409eff;
+    color: white;
+    border: none;
     border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #66b1ff;
+}
+
+button:active {
+    background-color: #3a8ee6;
 }
 </style>
