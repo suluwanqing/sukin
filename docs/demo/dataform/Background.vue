@@ -8,8 +8,6 @@
 import { ref } from 'vue';
 import { SuDataform } from "sukin";
 import { formSections } from './data';
-
-// 使用一个好看的、免费的背景图片 URL
 const imageUrl = ref('https://images.unsplash.com/photo-1557683316-973673baf926?w=800&q=80');
 </script>
 

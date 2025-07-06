@@ -50,9 +50,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Icon = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-c99bd54d"]]);
-const SuIcon = withInstall(Icon);
+const SuIcon$1 = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-33af11ad"]]);
+const SuIcon = withInstall(SuIcon$1);
 export {
-  Icon as I,
-  SuIcon as S
+  SuIcon$1 as S,
+  SuIcon as a
 };

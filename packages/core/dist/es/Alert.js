@@ -1,5 +1,5 @@
 import { defineComponent, useSlots, ref, computed, createBlock, openBlock, Transition, unref, withCtx, withDirectives, createElementVNode, normalizeClass, createCommentVNode, createElementBlock, normalizeStyle, renderSlot, createTextVNode, toDisplayString, createVNode, withModifiers, vShow } from "vue";
-import { I as Icon } from "./Icon.js";
+import { S as SuIcon } from "./Icon.js";
 import { t as typeIconMap, c as createNamespace, _ as _export_sfc, w as withInstall } from "./utils.js";
 const _sfc_main = /* @__PURE__ */ defineComponent({
   ...{
@@ -50,7 +50,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
             ]),
             role: "alert"
           }, [
-            _ctx.showIcon ? (openBlock(), createBlock(Icon, {
+            _ctx.showIcon ? (openBlock(), createBlock(SuIcon, {
               key: 0,
               class: normalizeClass([
                 unref(bem).e("icon"),
@@ -83,7 +83,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
                 key: 0,
                 class: normalizeClass(unref(bem).e("close"))
               }, [
-                createVNode(Icon, {
+                createVNode(SuIcon, {
                   onClick: withModifiers(close, ["stop"]),
                   icon: "xmark"
                 })

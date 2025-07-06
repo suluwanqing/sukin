@@ -12,9 +12,7 @@
 import { ref } from 'vue';
 import { SuDataform } from "sukin";
 import { formSections } from './data';
-
 const eventMessage = ref('');
-
 const handleSubmit = (formType: string, data: Record<string, any>) => {
     eventMessage.value = `表单 "${formType}" 已提交\n数据: ${JSON.stringify(data, null, 2)}`;
 };

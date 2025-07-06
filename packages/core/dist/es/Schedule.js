@@ -65,7 +65,6 @@ function handleSaveData(context) {
     gridStructure: context.props.gridStructure,
     layout: {
       direction: context.props.direction
-      // <--- 已修改
     }
   };
   context.emit("export-data", data);
@@ -75,7 +74,6 @@ function isDragOver(section, cell) {
 }
 function createCanvasTheme(options) {
   const defaultTheme = {
-    // <--- 已修改
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     backgroundColor: "#f0f9f8",
     padding: 15,

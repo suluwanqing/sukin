@@ -118,6 +118,9 @@ const _hoisted_6 = ["for"];
 const _hoisted_7 = ["type", "id", "onUpdate:modelValue", "placeholder", "onBlur"];
 const _hoisted_8 = ["onClick"];
 const _sfc_main = /* @__PURE__ */ defineComponent({
+  ...{
+    name: "SuDataform"
+  },
   __name: "Dataform",
   props: {
     backgroundImage: { default: "" },

@@ -4,3 +4,4 @@ export * from './Icon';
 export * from './Dragdrop';
 export * from './Schedule';
 export * from './Dataform';
+export * from './Selection';

@@ -67,14 +67,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, withDefaults, watch, defineExpose } from 'vue';
+import { ref, reactive, withDefaults, watch, defineExpose,defineOptions } from 'vue';
 import type { FormPanelProps, FormPanelEmits, FormPanelState, FormField, FormSection, FormStep } from './type';
 import * as events from './events';
 import { createNamespace } from "@sukin/utils"
 const bem = createNamespace('form-panel');
 import SuAlert from "../Alert/Alert.vue";
 import './style.css';
-
+defineOptions({
+    name: 'SuDataform'
+})
 const props = withDefaults(defineProps<FormPanelProps>(), { backgroundImage: '', sections: () => [], size: 'medium', direction: 'vertical', initialForm: '' });
 const emit = defineEmits<FormPanelEmits>();
 

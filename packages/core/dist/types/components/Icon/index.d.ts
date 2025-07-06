@@ -11,4 +11,4 @@ export declare const SuIcon: {
     __isTeleport?: never;
     __isSuspense?: never;
 } & import('vue').ComponentOptionsBase<Readonly<import('packages/core').IconProps> & Readonly<{}>, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, {}, {}, string, {}, import('vue').GlobalComponents, import('vue').GlobalDirectives, string, import('vue').ComponentProvideOptions> & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps & import('vue').Plugin;
-export * from './types';
+export * from './type';

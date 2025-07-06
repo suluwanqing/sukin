@@ -26,10 +26,11 @@ export default defineConfig({
         items: [{ text: "快速开始", link: "/get-started" }],
       },
       {
-        text: "基础组件",
+        text: "基础",
         collapsed: false,
         items: [
           { text: "Button 按钮", link: "components/button" },
+          { text: "颜色", link: "components/color" },
         ],
       },
       {
@@ -45,8 +46,14 @@ export default defineConfig({
         items: [
           { text: "日程", link: "components/schedule" },
           { text: '可拖拽', link: 'components/dragdrop' },
-          { text: '表单', link: 'components/dataform' }
+          { text: '表单', link: 'components/dataform' },
         ],
+      }, {
+        text: "选项",
+        collapsed: false,
+        items: [
+          { text: "下拉选择", link: "components/selection" },
+        ]
       }
     ],
   },

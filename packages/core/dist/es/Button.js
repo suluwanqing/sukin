@@ -1,6 +1,6 @@
 import { defineComponent, ref, useSlots, inject, computed, createBlock, openBlock, resolveDynamicComponent, unref, normalizeClass, withCtx, renderSlot, createCommentVNode, createElementBlock, createVNode, normalizeStyle, provide, reactive, toRef } from "vue";
 import { c as createNamespace, _ as _export_sfc, w as withInstall } from "./utils.js";
-import { I as Icon } from "./Icon.js";
+import { S as SuIcon } from "./Icon.js";
 import { t as throttle } from "./vendor.js";
 const BUTTON_GROUP_CTX_KEY = Symbol("buttonGroupContext");
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
@@ -75,7 +75,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       }, {
         default: withCtx(() => [
           loading.value ? renderSlot(_ctx.$slots, "loading", { key: 0 }, () => [
-            createVNode(Icon, {
+            createVNode(SuIcon, {
               class: normalizeClass(["loading-icon", [unref(bem).e("icon"), unref(bem).em("icon", "spinner")]]),
               icon: _ctx.loadingIcon ?? "spinner",
               style: normalizeStyle(iconStyle.value),
@@ -83,7 +83,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
               size: "1x"
             }, null, 8, ["class", "icon", "style"])
           ], true) : createCommentVNode("", true),
-          _ctx.icon && !loading.value ? (openBlock(), createBlock(Icon, {
+          _ctx.icon && !loading.value ? (openBlock(), createBlock(SuIcon, {
             key: 1,
             class: normalizeClass(unref(bem).e("icon")),
             icon: _ctx.icon,

@@ -3,4 +3,4 @@ import { withInstall } from "@sukin/utils";
 
 export const SuIcon = withInstall(Icon);
 
-export * from "./types";
+export * from "./type";

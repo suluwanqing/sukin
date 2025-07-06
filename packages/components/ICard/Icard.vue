@@ -17,7 +17,7 @@
                     [bem.m('c-direction')]: direction,
                 },
                 bem.is('c-disabled', disabled),
-            ]">
+            ]"> 
             </Item>
         </div>
     </component>

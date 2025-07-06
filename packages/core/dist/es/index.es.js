@@ -3,10 +3,11 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { a as SuAlert } from "./Alert.js";
 import { S as SuButton, a as SuButtonGroup } from "./Button.js";
-import { S as SuIcon } from "./Icon.js";
+import { a as SuIcon } from "./Icon.js";
 import { S as SuDragDrop } from "./Dragdrop.js";
 import { S as SuSchedule } from "./Schedule.js";
 import { S as SuDataform } from "./Dataform.js";
+import { S as SuSelection } from "./Selection.js";
 const components = [
   SuButton,
   SuIcon,
@@ -14,7 +15,8 @@ const components = [
   SuAlert,
   SuDragDrop,
   SuSchedule,
-  SuDataform
+  SuDataform,
+  SuSelection
 ];
 const installer = makeInstaller(components);
 library.add(fas);
@@ -26,5 +28,6 @@ export {
   SuDragDrop,
   SuIcon,
   SuSchedule,
+  SuSelection,
   installer as default
 };
