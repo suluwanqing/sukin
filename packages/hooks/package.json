@@ -1,0 +1,15 @@
+{
+  "name": "@sukin/hooks",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./index.ts",        
+  "module": "./index.ts",        
+  "types": "./index.d.ts",
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "types": "./index.d.ts"
+    }
+  }
+}

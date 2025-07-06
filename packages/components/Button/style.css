@@ -1,0 +1,222 @@
+.su-button-group {
+  --su-button-group-border-color: var(--su-border-color-lighter);
+}
+
+.su-button {
+  --su-button-font-weight: var(--su-font-weight-primary);
+  --su-button-border-color: var(--su-border-color);
+  --su-button-bg-color: var(--su-fill-color-blank);
+  --su-button-text-color: var(--su-text-color-regular);
+  --su-button-disabled-text-color: var(--su-disabled-text-color);
+  --su-button-disabled-bg-color: var(--su-fill-color-blank);
+  --su-button-disabled-border-color: var(--su-border-color-light);
+  --su-button-hover-text-color: var(--su-color-primary);
+  --su-button-hover-bg-color: var(--su-color-primary-light-9);
+  --su-button-hover-border-color: var(--su-color-primary-light-7);
+  --su-button-active-text-color: var(--su-button-hover-text-color);
+  --su-button-active-border-color: var(--su-color-primary);
+  --su-button-active-bg-color: var(--su-button-hover-bg-color);
+  --su-button-outline-color: var(--su-color-primary-light-5);
+  --su-button-active-color: var(--su-text-color-primary);
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  height: 32px;
+  white-space: nowrap;
+  cursor: pointer;
+  color: var(--su-button-text-color);
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+  transition: 0.1s;
+  font-weight: var(--su-button-font-weight);
+  user-select: none;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  background-color: var(--su-button-bg-color);
+  border: var(--su-border);
+  border-color: var(--su-button-border-color);
+  padding: 8px 15px;
+  font-size: var(--su-font-size-base);
+  border-radius: var(--su-border-radius-base);
+  
+  & + & {
+    margin-left: 12px;
+  }
+  
+  &:hover {
+    color: var(--su-button-hover-text-color);
+    border-color: var(--su-button-hover-border-color);
+    background-color: var(--su-button-hover-bg-color);
+    outline: none;
+  }
+  
+  &:active {
+    color: var(--su-button-active-text-color);
+    border-color: var(--su-button-active-border-color);
+    background-color: var(--su-button-active-bg-color);
+    outline: none;
+  }
+
+
+  &--plain {
+    --su-button-hover-text-color: var(--su-color-primary);
+    --su-button-hover-bg-color: var(--su-fill-color-blank);
+    --su-button-hover-border-color: var(--su-color-primary);
+    --su-button-active-bg-color: var(--su-fill-color-blank);
+  }
+
+  /* Round 样式 */
+  &--round {
+    border-radius: var(--su-border-radius-round);
+  }
+  
+  /* Circle 样式 */
+  &--circle {
+    border-radius: 50%;
+    padding: 8px;
+  }
+  
+  /* Disabled 状态 */
+  &.is-loading,
+  &.is-disabled,
+  &.is-disabled:hover,
+  &[disabled],
+  &[disabled]:hover,
+  &[disabled]:focus {
+    color: var(--su-button-disabled-text-color);
+    cursor: not-allowed;
+    background-image: none;
+    background-color: var(--su-button-disabled-bg-color);
+    border-color: var(--su-button-disabled-border-color);
+  }
+  
+  [class*='su-icon'] {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+/* 使用 postcss-each 处理颜色变体 */
+@each $val in primary, success, warning, info, danger {
+  .su-button--$(val) {
+    --su-button-text-color: var(--su-color-white);
+    --su-button-bg-color: var(--su-color-$(val));
+    --su-button-border-color: var(--su-color-$(val));
+    --su-button-outline-color: var(--su-color-$(val)-light-5);
+    --su-button-active-color: var(--su-color-$(val)-dark-2);
+    --su-button-hover-text-color: var(--su-color-white);
+    --su-button-hover-bg-color: var(--su-color-$(val)-light-3);
+    --su-button-hover-border-color: var(--su-color-$(val)-light-3);
+    --su-button-active-bg-color: var(--su-color-$(val)-dark-2);
+    --su-button-active-border-color: var(--su-color-$(val)-dark-2);
+    --su-button-disabled-text-color: var(--su-color-white);
+    --su-button-disabled-bg-color: var(--su-color-$(val)-light-5);
+    --su-button-disabled-border-color: var(--su-color-$(val)-light-5);
+
+
+    &.su-button--plain,
+    &--plain {
+      --su-button-text-color: var(--su-color-$(val));
+      --su-button-bg-color: var(--su-color-$(val)-light-9);
+      --su-button-border-color: var(--su-color-$(val)-light-5);
+      --su-button-hover-text-color: var(--su-color-white);
+      --su-button-hover-bg-color: var(--su-color-$(val));
+      --su-button-hover-border-color: var(--su-color-$(val));
+      --su-button-active-text-color: var(--su-color-white);
+      --su-button-disabled-text-color: var(--su-color-$(val)-light-5);
+      --su-button-disabled-bg-color: var(--su-color-$(val)-light-9);
+      --su-button-disabled-border-color: var(--su-color-$(val)-light-8);
+    }
+  }
+}
+
+/* 大号按钮 */
+.su-button--large {
+  --su-button-size: 40px;
+  height: var(--su-button-size);
+  padding: 12px 19px;
+  font-size: var(--su-font-size-base);
+  border-radius: var(--su-border-radius-base);
+  
+  /* 圆形大号按钮 */
+  &--circle {
+    border-radius: 50%;
+    padding: 12px;
+  }
+}
+
+/* 小号按钮 */
+.su-button--small {
+  --su-button-size: 24px;
+  height: var(--su-button-size);
+  padding: 5px 11px;
+  font-size: 12px;
+  border-radius: calc(var(--su-border-radius-base) - 1px);
+  
+  /* 圆形小号按钮 */
+  &--circle {
+    border-radius: 50%;
+    padding: 5px;
+  }
+  
+  [class*='su-icon'] {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* 按钮组样式 */
+.su-button-group {
+  display: inline-block;
+  vertical-align: middle;
+
+  &::after {
+    clear: both;
+  }
+  
+  & > :deep(.su-button) {
+    float: left;
+    position: relative;
+    margin-left: 0;
+    
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right-color: var(--su-button-group-border-color);
+    }
+    
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0; 
+      border-left-color: var(--su-button-group-border-color);
+    }
+    
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+      border-left-color: var(--su-button-group-border-color);
+      border-right-color: var(--su-button-group-border-color);
+    }
+    
+    &:not(:last-child) {
+      margin-right: -1px;
+    }
+    
+    &:first-child:last-child {
+      border-top-right-radius: var(--su-border-radius-base);
+      border-bottom-right-radius: var(--su-border-radius-base);
+      border-top-left-radius: var(--su-border-radius-base);
+      border-bottom-left-radius: var(--su-border-radius-base);
+
+      &--round {
+        border-radius: var(--su-border-radius-round);
+      }
+
+      &--circle {
+        border-radius: 50%;
+      }
+    }
+  }
+}

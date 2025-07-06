@@ -1,0 +1,50 @@
+{
+  "name": "@sukin/workspace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "pnpm -C play dev --port 3000",
+    "docs:dev": "pnpm -C docs dev --port 3001",
+    "docs:build": "pnpm -C docs build",
+    "build": "pnpm --filter sukin build",
+    "test": "pnpm --filter @sukin/components test",
+    "serve": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "6.7.2",
+    "@fortawesome/free-solid-svg-icons": "6.7.2",
+    "@fortawesome/vue-fontawesome": "3.0.6",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^24.0.3",
+    "@vitejs/plugin-vue": "^5.2.4",
+    "@vitejs/plugin-vue-jsx": "^4.2.0",
+    "@vue/tsconfig": "^0.7.0",
+    "@vue/test-utils": "^2.4.5",
+    "npm-run-all": "^4.1.5",
+    "postcss-color-mix": "^1.1.0",
+    "postcss-each": "^1.1.0",
+    "postcss-each-variables": "^0.3.0",
+    "postcss-for": "^2.1.1",
+    "postcss-nested": "^7.0.2",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.2.4",
+    "vue-tsc": "^2.2.10"
+  },
+  "dependencies": {
+    "@sukin/components": "workspace:*",
+    "@sukin/constants": "workspace:*",
+    "@sukin/hooks": "workspace:*",
+    "@sukin/theme": "workspace:*",
+    "@sukin/utils": "workspace:*",
+    "lodash-es": "^4.17.21",
+    "sukin": "workspace:*",
+    "vue": "^3.5.17"
+  }
+}

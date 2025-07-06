@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist/types",
+    "paths": {
+      "@sukin/components": ["./packages/components"]
+    }
+  },
+  "include": [
+    "packages/core/index.ts",
+    "packages/components/**/*.ts",
+    "packages/components/**/*.vue",
+    "packages/hooks/**/*.ts",
+    "packages/utils/**/*.ts"
+  ],
+  "exclude": [
+    "**/vitest.config.ts",
+    "**/*.test.ts"
+  ]
+}

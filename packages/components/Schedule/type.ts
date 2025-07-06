@@ -1,0 +1,96 @@
+import { type Ref } from 'vue';
+
+export interface DraggableItem {
+    name: string;
+    label: string;
+    [key: string]: any;
+}
+
+export interface ProcessedDraggableItem extends DraggableItem {
+    remaining: number;
+    disabled: boolean;
+}
+
+export interface Label {
+    label: string;
+}
+
+export interface MetaInfo {
+    label: string;
+}
+
+export type GridCellContents = Record<string, DraggableItem | null>;
+
+export interface ScheduleTableProps {
+    draggableItems?: DraggableItem[];
+    metaInfo?: MetaInfo[];
+    labels?: Label[];
+    gridStructure?: number[];
+    orientation?: 'horizontal' | 'vertical';
+    size?: 'small' | 'medium' | 'large';
+    quantityKey?: string;
+}
+
+export interface ExportData {
+    gridContents: GridCellContents;
+    labels: Label[];
+    metaInfo: MetaInfo[];
+    gridStructure: number[];
+    layout: {
+        orientation: 'horizontal' | 'vertical';
+    };
+}
+
+export type ScheduleTableEmits = {
+    'export-data': [data: ExportData];
+};
+
+export interface EventContext {
+    props: Readonly<ScheduleTableProps>;
+    emit: (event: 'export-data', data: ExportData) => void;
+    gridCellContents: Ref<GridCellContents>;
+    itemUsage: Ref<Record<string, number>>;
+    quantityKey: string;
+}
+
+export interface ScheduleTableTheme {
+    fontFamily: string;
+    backgroundColor: string;
+    padding: number;
+    gap: number;
+    container: {
+        backgroundColor: string;
+        borderColor: string;
+        borderWidth: number;
+        borderRadius: number;
+    };
+    header: {
+        backgroundColor: string;
+        borderColor: string;
+        borderWidth: number;
+        borderRadius: number;
+        font: { size: number; weight: string; color: string; family: string; };
+    };
+    meta: {
+        backgroundColor: string;
+        borderColor: string;
+        borderWidth: number;
+        borderRadius: number;
+        font: { size: number; weight: string; color: string; family: string; };
+    };
+    cell: {
+        backgroundColor: string;
+        borderColor: string;
+        borderWidth: number;
+        borderStyle: string;
+        borderRadius: number;
+        placeholder: { text: string; size: number; weight: string; color: string; family: string; };
+    };
+    droppedItem: {
+        backgroundColor: string;
+        borderColor: string;
+        borderWidth: number;
+        borderRadius: number;
+        font: { size: number; weight: string; color: string; family: string; };
+    };
+}

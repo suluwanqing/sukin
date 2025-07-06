@@ -1,0 +1,47 @@
+{
+  "name": "sukin",
+  "version": "1.0.0",
+  "description": "Components library by Vue3 + Ts",
+  "type": "module",
+  "types": "./dist/types/core/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.es.js",
+      "require": "./dist/umd/index.umd.cjs",
+      "types": "./dist/types/core/index.d.ts"
+    },
+    "./theme/main.css": "./dist/theme/main.css",
+    "./theme/Button.css": "./dist/theme/Button.css",
+    "./theme/Alert.css": "./dist/theme/Alert.css",
+    "./theme/Collapse.css": "./dist/theme/Collapse.css",
+    "./theme/Icon.css": "./dist/theme/Icon.css",
+    "./theme/index.css": "./dist/theme/index.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "./dist/index.css",
+    "./dist/theme/*.css"
+  ],
+  "main": "./dist/umd/index.umd.cjs",
+  "module": "./dist/es/index.es.js",
+  "scripts": {
+    "build": "run-s build-only build-umd",
+    "build-only": "run-p build-umd build-es",
+    "build-umd": "vite build --config ./bd/vite.umd.config.ts",
+    "build-es": "vite build --config ./bd/vite.es.config.ts",
+    "release": "release-it"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sukin/components": "workspace:*",
+    "@sukin/constants": "workspace:*",
+    "rollup-plugin-dts": "^6.2.1"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
+  }
+}

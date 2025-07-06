@@ -1,0 +1,13 @@
+import { Ref } from 'vue';
+import { DraggableItem, EventContext, ScheduleTableTheme } from './type';
+export declare function handleDragStart(event: DragEvent, item: DraggableItem): void;
+export declare function handleDragEnd(event: DragEvent): void;
+export declare function handleDragOver(event: DragEvent, sectionIndex: number, cellIndex: number): void;
+export declare function handleDragLeave(sectionIndex: number, cellIndex: number): void;
+export declare function handleDrop(event: DragEvent, sectionIndex: number, cellIndex: number, context: EventContext): void;
+export declare function removeCellContent(sectionIndex: number, cellIndex: number, context: EventContext): void;
+export declare function handleSaveData(context: EventContext): void;
+export declare function isDragOver(section: number, cell: number): boolean;
+export declare function createCanvasTheme(options?: Partial<ScheduleTableTheme>): ScheduleTableTheme;
+export declare function generateCanvasPreview(componentRef: Ref<HTMLElement | undefined>, theme: ScheduleTableTheme): Promise<HTMLCanvasElement>;
+export declare function exportCanvasAsImage(componentRef: Ref<HTMLElement | undefined>, theme: ScheduleTableTheme, filename?: string): Promise<void>;

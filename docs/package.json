@@ -1,0 +1,22 @@
+{
+  "name": "@sukin/docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type":"module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vitepress dev ./",
+    "build": "vitepress build ./",
+    "preview": "vitepress preview"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vitepress-demo-preview/component": "^2.3.2",
+    "@vitepress-demo-preview/plugin": "^1.2.3",
+    "vitepress": "1.1.4"
+  }
+}

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# 遍历目录并在每个目录下初始化 package.json
+for i in components core docs hooks theme utils; do
+    mkdir -p "$i"       # 确保目录存在（如果不存在则创建）
+    cd "$i" || exit 1   # 进入目录，如果失败则退出
+    npm init -y         # 非交互式生成 package.json
+    cd ..               # 返回上级目录
+done
+
+echo "All package.json files initialized."
