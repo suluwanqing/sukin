@@ -21,12 +21,13 @@ export interface MetaInfo {
 
 export type GridCellContents = Record<string, DraggableItem | null>;
 
-export interface ScheduleTableProps {
+// 类型重命名以提高一致性
+export interface ScheduleProps {
     draggableItems?: DraggableItem[];
     metaInfo?: MetaInfo[];
     labels?: Label[];
     gridStructure?: number[];
-    orientation?: 'horizontal' | 'vertical';
+    direction?: 'horizontal' | 'vertical'; 
     size?: 'small' | 'medium' | 'large';
     quantityKey?: string;
 }
@@ -37,23 +38,23 @@ export interface ExportData {
     metaInfo: MetaInfo[];
     gridStructure: number[];
     layout: {
-        orientation: 'horizontal' | 'vertical';
+        direction: 'horizontal' | 'vertical'; 
     };
 }
 
-export type ScheduleTableEmits = {
+export type ScheduleEmits = {
     'export-data': [data: ExportData];
 };
 
 export interface EventContext {
-    props: Readonly<ScheduleTableProps>;
+    props: Readonly<ScheduleProps>;
     emit: (event: 'export-data', data: ExportData) => void;
     gridCellContents: Ref<GridCellContents>;
     itemUsage: Ref<Record<string, number>>;
     quantityKey: string;
 }
 
-export interface ScheduleTableTheme {
+export interface ScheduleTheme {
     fontFamily: string;
     backgroundColor: string;
     padding: number;

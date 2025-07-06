@@ -1,5 +1,5 @@
 <template>
-    <div :ref="setScheduleTableRef" :class="[bem.b(), bem.m(size), bem.m(orientation)]">
+    <div :ref="setScheduleTableRef" :class="[bem.b(), bem.m(size), bem.m(props.direction)]">
         <div :class="bem.e('draggable-area')">
             <div :class="bem.e('draggable-list')">
                 <div v-for="item in processedDraggableItems" :key="item.name"
@@ -87,7 +87,7 @@ import {
     removeCellContent, handleSaveData, isDragOver, generateCanvasPreview,
     exportCanvasAsImage, createCanvasTheme
 } from './events';
-import type { ScheduleTableProps, ScheduleTableEmits, GridCellContents, EventContext, ProcessedDraggableItem } from './type';
+import type { ScheduleProps, ScheduleEmits, GridCellContents, EventContext, ProcessedDraggableItem } from './type';
 import { createNamespace } from '@sukin/utils';
 
 const bem = createNamespace('schedule-table');
@@ -96,17 +96,17 @@ defineOptions({
     name: 'SuSchedule',
 })
 
-const props = withDefaults(defineProps<ScheduleTableProps>(), {
+const props = withDefaults(defineProps<ScheduleProps>(), {
     draggableItems: () => [],
     metaInfo: () => [],
     labels: () => [],
     gridStructure: () => [],
-    orientation: 'horizontal',
+    direction: 'horizontal',
     size: 'medium',
     quantityKey: 'quantity',
 });
 
-const emit = defineEmits<ScheduleTableEmits>();
+const emit = defineEmits<ScheduleEmits>();
 const gridCellContents = ref<GridCellContents>({});
 const scheduleTableElement = ref<HTMLDivElement>();
 const itemUsage = ref<Record<string, number>>({});
@@ -177,7 +177,7 @@ async function runExportImage() {
     if (isPreviewVisible.value) closePreview();
 }
 
-const isVertical = computed(() => props.orientation === 'vertical');
+const isVertical = computed(() => props.direction === 'vertical');
 const maxCellsPerSection = computed(() => Math.max(0, ...(props.gridStructure || []).map(Number)))
 const visibleMetaInfo = computed(() => props.metaInfo!.slice(0, maxCellsPerSection.value));
 const showLabels = computed(() => props.labels && props.labels!.length > 0);

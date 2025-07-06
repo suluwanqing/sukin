@@ -1,7 +1,5 @@
-// src/components/FormPanel/types.ts
 import type { Ref } from 'vue';
 
-// A rule can be a simple string 'required' or an object for customization
 export type ValidationRule = string | { name: string;[key: string]: any };
 
 export interface FormField {
@@ -9,14 +7,14 @@ export interface FormField {
     label: string;
     type: 'text' | 'password' | 'email' | 'number';
     placeholder?: string;
-    autocomplete?: 'on' | 'off';
+    required?: boolean; //明确指定字段是否为必填项
     rules?: ValidationRule[];
 }
 
 export interface FormStep {
     step: number;
     fields: FormField[];
-    func?: (formData: Record<string, any>) => boolean | Promise<boolean>;
+    func?: (formData: Record<string, any>) => boolean | string | Promise<boolean | string>;
 }
 
 export interface FormSection {
@@ -24,7 +22,7 @@ export interface FormSection {
     step: boolean;
     fields?: FormField[];
     steps?: FormStep[];
-    step_model?: { current: number; All_Steps: number; };
+    step_model?: { All_Steps: number; };
 }
 
 export interface FormPanelProps {
@@ -45,5 +43,6 @@ export interface FormPanelState {
     currentStep: Ref<number>;
     formData: Record<string, any>;
     formErrors: Record<string, string | null>;
-    generalError: Ref<string | null>; // For the SuAlert message
+    generalError: Ref<string | null>;
+    touched: Ref<Set<string>>;
 }

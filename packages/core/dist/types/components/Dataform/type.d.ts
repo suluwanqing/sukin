@@ -8,13 +8,13 @@ export interface FormField {
     label: string;
     type: 'text' | 'password' | 'email' | 'number';
     placeholder?: string;
-    autocomplete?: 'on' | 'off';
+    required?: boolean;
     rules?: ValidationRule[];
 }
 export interface FormStep {
     step: number;
     fields: FormField[];
-    func?: (formData: Record<string, any>) => boolean | Promise<boolean>;
+    func?: (formData: Record<string, any>) => boolean | string | Promise<boolean | string>;
 }
 export interface FormSection {
     title: string;
@@ -22,7 +22,6 @@ export interface FormSection {
     fields?: FormField[];
     steps?: FormStep[];
     step_model?: {
-        current: number;
         All_Steps: number;
     };
 }
@@ -43,4 +42,5 @@ export interface FormPanelState {
     formData: Record<string, any>;
     formErrors: Record<string, string | null>;
     generalError: Ref<string | null>;
+    touched: Ref<Set<string>>;
 }

@@ -9,7 +9,8 @@
     "docs:build": "pnpm -C docs build",
     "build": "pnpm --filter sukin build",
     "test": "pnpm --filter @sukin/components test",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "play": "pnpm --filter play dev"
   },
   "keywords": [],
   "author": "",

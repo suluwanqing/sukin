@@ -3,7 +3,7 @@
         <div class="demo-section">
             <h4 class="demo-title">Horizontal (默认)</h4>
             <div class="demo-wrapper horizontal-demo">
-                <su-schedule orientation="horizontal" :draggable-items="draggableItems" :labels="labels"
+                <su-schedule direction="horizontal" :draggable-items="draggableItems" :labels="labels"
                     :meta-info="metaInfo" :grid-structure="gridStructure" />
             </div>
         </div>
@@ -11,7 +11,7 @@
         <div class="demo-section">
             <h4 class="demo-title">Vertical</h4>
             <div class="demo-wrapper vertical-demo">
-                <su-schedule orientation="vertical" :draggable-items="draggableItems" :labels="labels"
+                <su-schedule direction="vertical" :draggable-items="draggableItems" :labels="labels"
                     :meta-info="metaInfo" :grid-structure="verticalGridStructure" />
             </div>
         </div>

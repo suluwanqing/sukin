@@ -3,7 +3,7 @@ import type {
     DraggableItem,
     EventContext,
     ExportData,
-    ScheduleTableTheme
+    ScheduleTheme 
 } from './type';
 
 let draggedItemData: DraggableItem | null = null;
@@ -84,7 +84,7 @@ export function handleSaveData(context: EventContext) {
         metaInfo: context.props.metaInfo!,
         gridStructure: context.props.gridStructure!,
         layout: {
-            orientation: context.props.orientation!,
+            direction: context.props.direction!, // <--- 已修改
         },
     };
     context.emit('export-data', data);
@@ -94,8 +94,8 @@ export function isDragOver(section: number, cell: number): boolean {
     return dragOverCellKey === `${section}-${cell}`;
 }
 
-export function createCanvasTheme(options?: Partial<ScheduleTableTheme>): ScheduleTableTheme {
-    const defaultTheme: ScheduleTableTheme = {
+export function createCanvasTheme(options?: Partial<ScheduleTheme>): ScheduleTheme { // <--- 已修改
+    const defaultTheme: ScheduleTheme = { // <--- 已修改
         fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
         backgroundColor: '#f0f9f8',
         padding: 15,
@@ -183,7 +183,7 @@ function drawText(ctx: CanvasRenderingContext2D, text: string, x: number, y: num
     ctx.fillText(text, x, y);
 }
 
-async function drawScheduleToCanvas(componentRef: Ref<HTMLElement | undefined>, theme: ScheduleTableTheme): Promise<HTMLCanvasElement> {
+async function drawScheduleToCanvas(componentRef: Ref<HTMLElement | undefined>, theme: ScheduleTheme): Promise<HTMLCanvasElement> { // <--- 已修改
     const rootEl = componentRef.value;
     if (!rootEl) throw new Error("Component root element is not available.");
 
@@ -263,11 +263,11 @@ async function drawScheduleToCanvas(componentRef: Ref<HTMLElement | undefined>, 
     return canvas;
 }
 
-export async function generateCanvasPreview(componentRef: Ref<HTMLElement | undefined>, theme: ScheduleTableTheme): Promise<HTMLCanvasElement> {
+export async function generateCanvasPreview(componentRef: Ref<HTMLElement | undefined>, theme: ScheduleTheme): Promise<HTMLCanvasElement> { // <--- 已修改
     return await drawScheduleToCanvas(componentRef, theme);
 }
 
-export async function exportCanvasAsImage(componentRef: Ref<HTMLElement | undefined>, theme: ScheduleTableTheme, filename = 'schedule.png') {
+export async function exportCanvasAsImage(componentRef: Ref<HTMLElement | undefined>, theme: ScheduleTheme, filename = 'schedule.png') { // <--- 已修改
     try {
         const canvas = await drawScheduleToCanvas(componentRef, theme);
         const link = document.createElement('a');

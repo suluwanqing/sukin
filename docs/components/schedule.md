@@ -27,12 +27,12 @@ prev:
 demo-preview=../demo/schedule/Basic.vue
 :::
 
-## 布局方向 (Orientation)
+## 布局方向 (Direction)
 
-使用 `orientation` 属性可以控制课程表的整体布局方向，支持 `horizontal` (水平) 和 `vertical` (垂直) 两种模式。
+使用 `Direction` 属性可以控制课程表的整体布局方向，支持 `horizontal` (水平) 和 `vertical` (垂直) 两种模式。
 
 ::: preview
-demo-preview=../demo/schedule/Orientation.vue
+demo-preview=../demo/schedule/Direction.vue
 :::
 
 ## 组件尺寸 (Size)
@@ -65,7 +65,7 @@ demo-preview=../demo/schedule/Count.vue
 | `metaInfo`       | 表格的元信息 (通常是行头，如时间段)                      | `MetaInfo[]`                     | `[]`           |
 | `labels`         | 表格的标签 (通常是列头，如星期)                          | `Label[]`                        | `[]`           |
 | `gridStructure`  | 定义网格结构，数组每个元素代表一列（或一行）的单元格数量 | `number[]`                       | `[]`           |
-| `orientation`    | 组件的布局方向                                           | `'horizontal' \| 'vertical'`     | `'horizontal'` |
+| `Direction`    | 组件的布局方向                                           | `'horizontal' \| 'vertical'`     | `'horizontal'` |
 | `size`           | 组件的整体尺寸                                           | `'small' \| 'medium' \| 'large'` | `'medium'`     |
 | `quantityKey`    | `draggableItems` 数据项中用于限制数量的键名              | `string`                         | `'quantity'`   |
 
@@ -114,7 +114,7 @@ labels: Label[];
 metaInfo: MetaInfo[];
 gridStructure: number[];
 layout: {
-orientation: 'horizontal' | 'vertical';
+direction: 'horizontal' | 'vertical';
 };
 }
 

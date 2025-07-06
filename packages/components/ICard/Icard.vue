@@ -38,7 +38,6 @@ const props = withDefaults(defineProps<ICardProps>(), {
     tag: 'div',
     direction: 'vertical',
     circle: false,
-    plain: false,
     size: 'medium',
     data: () => []
 })

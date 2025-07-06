@@ -1,4 +1,5 @@
-import { FormPanelProps, FormPanelEmits, FormPanelState, FormSection, FormStep } from './type';
+import { FormPanelProps, FormPanelEmits, FormPanelState, FormSection, FormStep, FormField } from './type';
+export declare const validateField: (field: FormField, state: FormPanelState) => boolean;
 export declare const initializeState: (props: FormPanelProps, state: FormPanelState) => void;
 export declare const handleCloseRequest: (emit: FormPanelEmits) => void;
 export declare const handleSwitchForm: (formType: string, props: FormPanelProps, state: FormPanelState) => void;

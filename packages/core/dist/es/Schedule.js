@@ -64,7 +64,8 @@ function handleSaveData(context) {
     metaInfo: context.props.metaInfo,
     gridStructure: context.props.gridStructure,
     layout: {
-      orientation: context.props.orientation
+      direction: context.props.direction
+      // <--- 已修改
     }
   };
   context.emit("export-data", data);
@@ -74,6 +75,7 @@ function isDragOver(section, cell) {
 }
 function createCanvasTheme(options) {
   const defaultTheme = {
+    // <--- 已修改
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     backgroundColor: "#f0f9f8",
     padding: 15,
@@ -250,7 +252,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     metaInfo: { default: () => [] },
     labels: { default: () => [] },
     gridStructure: { default: () => [] },
-    orientation: { default: "horizontal" },
+    direction: { default: "horizontal" },
     size: { default: "medium" },
     quantityKey: { default: "quantity" }
   },
@@ -320,7 +322,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       await exportCanvasAsImage(scheduleTableElement, canvasTheme, `schedule-${(/* @__PURE__ */ new Date()).toISOString().split("T")[0]}.png`);
       if (isPreviewVisible.value) closePreview();
     }
-    const isVertical = computed(() => props.orientation === "vertical");
+    const isVertical = computed(() => props.direction === "vertical");
     const maxCellsPerSection = computed(() => Math.max(0, ...(props.gridStructure || []).map(Number)));
     const visibleMetaInfo = computed(() => props.metaInfo.slice(0, maxCellsPerSection.value));
     const showLabels = computed(() => props.labels && props.labels.length > 0);
@@ -399,7 +401,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
         ref: setScheduleTableRef,
-        class: normalizeClass([unref(bem).b(), unref(bem).m(_ctx.size), unref(bem).m(_ctx.orientation)])
+        class: normalizeClass([unref(bem).b(), unref(bem).m(_ctx.size), unref(bem).m(props.direction)])
       }, [
         createElementVNode("div", {
           class: normalizeClass(unref(bem).e("draggable-area"))
@@ -562,7 +564,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-ddf0d911"]]);
+const Table = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-eaf62026"]]);
 const SuSchedule = withInstall(Table);
 export {
   SuSchedule as S
