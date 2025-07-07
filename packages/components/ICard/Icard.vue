@@ -114,13 +114,7 @@ const trackStyle = computed(() => {
     if (props.mode !== 'carousel' || !totalItems.value) return {};
 
     const cardWithGap = getNumericResolvedCardWidth.value + 20;
-    // Calculate the horizontal offset needed to center the active card in the current view.
-    // The total width of the track content up to the active card's left edge
     const offsetToActiveCardLeft = activeIndex.value * cardWithGap;
-
-    // The amount to shift the track is (half of the viewport width) - (offset to active card's left) - (half of active card's width)
-    // Since the .su-card-stack element is already horizontally centered by `justify-content: center` in its flex container,
-    // we simply need to shift the track so the active card is centered relative to the component's visible width.
     const carouselOffset = -(offsetToActiveCardLeft - (getNumericResolvedCardWidth.value / 2));
 
     return {
