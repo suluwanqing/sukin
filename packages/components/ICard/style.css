@@ -1,9 +1,4 @@
 .su-card-stack {
-    --su-card-stack-offset: 100px;
-    --su-card-stack-rotate: 5deg;
-    --su-stack-extracted-offset: 60px;
-    --su-peek-offset: 60%;
-    --su-peek-scale: 0.8;
     --su-transition-duration: 0.5s;
     --su-controls-color: rgba(0, 0, 0, 0.6);
 
@@ -11,7 +6,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: var(--su-card-height); 
+    height: var(--su-card-height);
     position: relative;
     perspective: 1200px;
     overflow: hidden;
@@ -37,75 +32,67 @@
     overflow: hidden;
     will-change: transform, opacity, z-index;
     background-color: white;
-    transition: transform var(--su-transition-duration) ease-in-out, 
-                opacity var(--su-transition-duration) ease-in-out,
-                z-index 0s var(--su-transition-duration);
-}
+    transition: transform var(--su-transition-duration) ease-in-out,
+        opacity var(--su-transition-duration) ease-in-out,
+        z-index 0s var(--su-transition-duration);
 
-.su-card-stack__content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: sans-serif;
-    color: #333;
-    padding: 10px;
     text-align: center;
-    background-color: transparent;
 }
 
 /* --- stack --- */
 .su-card-stack--stack {
-    min-height: calc(var(--su-card-height) + var(--su-stack-extracted-offset) + 20px); 
+    min-height: calc(var(--su-card-height) + var(--su-stack-extracted-offset) + 20px);
     padding-top: var(--su-stack-extracted-offset);
 }
 
 .su-card-stack--stack .su-card-stack__item {
     transform-origin: center bottom;
-    z-index: calc(50 - abs(var(--i)));
 }
 
-.su-card-stack--stack .su-card-stack__item:hover {
-    transform: translateY(-20px) scale(1.03);
-    z-index: 100;
-    transition-delay: 0s, 0s, 0s;
+/* 非激活卡片在'toggle'或'none'模式下的CSS悬浮效果 */
+/* 注意：这个hover效果仅在 stackExtraction 不是 'hover' 时生效，因为 'hover' 模式下的hover由 JS 完全控制 */
+.su-card-stack--stack.su-card-stack--stack-extraction-toggle .su-card-stack__item:not(.is-active):hover,
+.su-card-stack--stack.su-card-stack--stack-extraction-none .su-card-stack__item:not(.is-active):hover {
+    transform: translateY(-5px);
+    z-index: 101;
+
 }
+
+
 
 .su-card-stack--stack .su-card-stack__item.is-active {
-    z-index: 200;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-}
-
-.su-card-stack--stack .su-card-stack__item.is-active:hover {
-    z-index: 200;
 }
 
 /* --- carousel --- */
 .su-card-stack--carousel {
     overflow: hidden;
     width: 100%;
-    padding-bottom: 80px; 
+    padding-bottom: 80px;
 }
+
 .su-card-stack--carousel .su-card-stack__track {
     display: flex;
     position: relative;
     transform: translateX(var(--carousel-offset));
     height: var(--su-card-height);
 }
+
 .su-card-stack--carousel .su-card-stack__item {
     position: relative;
     flex: 0 0 var(--su-card-width);
     margin-right: 20px;
     transition: transform var(--su-transition-duration) ease-in-out, opacity var(--su-transition-duration) ease-in-out;
 }
+
 .su-card-stack--carousel .su-card-stack__item:last-child {
     margin-right: 0;
 }
+
 .su-card-stack--carousel .su-card-stack__item:hover {
     transform: translateY(-10px);
 }
+
 .su-card-stack--carousel .su-card-stack__item.is-active {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     transform: translateY(-5px) scale(1.01);
@@ -113,14 +100,17 @@
 
 /* --- peek --- */
 .su-card-stack--peek {
-    padding-bottom: 50px; 
+    padding-bottom: 50px;
 }
+
 .su-card-stack--peek .su-card-stack__track {
     transform-style: preserve-3d;
 }
+
 .su-card-stack--peek .su-card-stack__item {
     opacity: 0.6;
 }
+
 .su-card-stack--peek .su-card-stack__item.is-active {
     opacity: 1;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -142,17 +132,18 @@
     font-size: 0.9em;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    
+
     &:hover {
         opacity: 0.9;
         transform: translateX(-50%) translateY(-2px);
     }
+
     &:active {
         transform: translateX(-50%) translateY(0);
     }
 }
 
-/* --- Indicators (Peek) --- */
+/* --- Peek --- */
 .su-card-stack__indicators {
     position: absolute;
     bottom: 0px;
@@ -162,6 +153,7 @@
     gap: 12px;
     z-index: 10;
 }
+
 .su-card-stack__indicator {
     width: 12px;
     height: 12px;
@@ -170,7 +162,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     border: 1px solid transparent;
-    
+
     &.is-active {
         background: var(--su-controls-color);
         border-color: rgba(0, 0, 0, 0.3);

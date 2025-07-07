@@ -1,7 +1,10 @@
-import { UPDATE_MODEL_EVENT, CLICK_EVENT, HOVER_EVENT } from './constant';
-export type CardStackItem = Record<string, any>;
+export interface CardStackItem {
+    id?: string | number;
+    [key: string]: any;
+}
 export type CardStackMode = 'stack' | 'carousel' | 'peek';
 export type CardStackSize = 'small' | 'medium' | 'large';
+export type CardStackExtraction = 'toggle' | 'hover' | 'none';
 export interface CardStackProps {
     items: CardStackItem[];
     mode?: CardStackMode;
@@ -12,6 +15,7 @@ export interface CardStackProps {
     stackOffset?: number;
     stackRotate?: number;
     stackExtractedOffset?: number;
+    stackExtraction?: CardStackExtraction;
     peekOffset?: number;
     peekScale?: number;
     loop?: boolean;
@@ -23,9 +27,9 @@ export interface CardStackProps {
     showCarouselGoToFirst?: boolean;
 }
 export interface CardStackEmits {
-    (e: typeof UPDATE_MODEL_EVENT, index: number): void;
-    (e: typeof CLICK_EVENT, event: MouseEvent, item: CardStackItem, index: number): void;
-    (e: typeof HOVER_EVENT, event: MouseEvent, item: CardStackItem, index: number): void;
+    (event: 'update:activeIndex', index: number): void;
+    (event: 'click', e: MouseEvent, item: CardStackItem, index: number): void;
+    (event: 'hover', e: MouseEvent, item: CardStackItem, index: number): void;
 }
 export interface CardStackExpose {
     setActive: (index: number) => void;

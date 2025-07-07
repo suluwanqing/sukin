@@ -1,16 +1,16 @@
 export declare const SuIcard: {
     new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('./type').CardStackProps> & Readonly<{
-        onClick?: ((event: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
+        onClick?: ((e: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
+        onHover?: ((e: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
         "onUpdate:activeIndex"?: ((index: number) => any) | undefined;
-        onHover?: ((event: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
     }>, {
         setActive: (index: number) => void;
         next: () => void;
         prev: () => void;
     }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
-        click: (event: MouseEvent, item: import('./type').CardStackItem, index: number) => any;
+        click: (e: MouseEvent, item: import('./type').CardStackItem, index: number) => any;
+        hover: (e: MouseEvent, item: import('./type').CardStackItem, index: number) => any;
         "update:activeIndex": (index: number) => any;
-        hover: (event: MouseEvent, item: import('./type').CardStackItem, index: number) => any;
     }, import('vue').PublicProps, {
         size: import('./type').CardStackSize;
         mode: import('./type').CardStackMode;
@@ -20,6 +20,7 @@ export declare const SuIcard: {
         stackOffset: number;
         stackRotate: number;
         stackExtractedOffset: number;
+        stackExtraction: import('./type').CardStackExtraction;
         peekOffset: number;
         peekScale: number;
         loop: boolean;
@@ -37,9 +38,9 @@ export declare const SuIcard: {
         M: {};
         Defaults: {};
     }, Readonly<import('./type').CardStackProps> & Readonly<{
-        onClick?: ((event: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
+        onClick?: ((e: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
+        onHover?: ((e: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
         "onUpdate:activeIndex"?: ((index: number) => any) | undefined;
-        onHover?: ((event: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
     }>, {
         setActive: (index: number) => void;
         next: () => void;
@@ -53,6 +54,7 @@ export declare const SuIcard: {
         stackOffset: number;
         stackRotate: number;
         stackExtractedOffset: number;
+        stackExtraction: import('./type').CardStackExtraction;
         peekOffset: number;
         peekScale: number;
         loop: boolean;
@@ -67,17 +69,17 @@ export declare const SuIcard: {
     __isTeleport?: never;
     __isSuspense?: never;
 } & import('vue').ComponentOptionsBase<Readonly<import('./type').CardStackProps> & Readonly<{
-    onClick?: ((event: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
+    onClick?: ((e: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
+    onHover?: ((e: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
     "onUpdate:activeIndex"?: ((index: number) => any) | undefined;
-    onHover?: ((event: MouseEvent, item: import('./type').CardStackItem, index: number) => any) | undefined;
 }>, {
     setActive: (index: number) => void;
     next: () => void;
     prev: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
-    click: (event: MouseEvent, item: import('./type').CardStackItem, index: number) => any;
+    click: (e: MouseEvent, item: import('./type').CardStackItem, index: number) => any;
+    hover: (e: MouseEvent, item: import('./type').CardStackItem, index: number) => any;
     "update:activeIndex": (index: number) => any;
-    hover: (event: MouseEvent, item: import('./type').CardStackItem, index: number) => any;
 }, string, {
     size: import('./type').CardStackSize;
     mode: import('./type').CardStackMode;
@@ -87,6 +89,7 @@ export declare const SuIcard: {
     stackOffset: number;
     stackRotate: number;
     stackExtractedOffset: number;
+    stackExtraction: import('./type').CardStackExtraction;
     peekOffset: number;
     peekScale: number;
     loop: boolean;

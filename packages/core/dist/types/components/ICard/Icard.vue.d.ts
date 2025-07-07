@@ -17,13 +17,13 @@ declare const __VLS_component: import('vue').DefineComponent<CardStackProps, {
     next: () => void;
     prev: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {} & {
-    click: (event: MouseEvent, item: CardStackItem, index: number) => any;
+    click: (e: MouseEvent, item: CardStackItem, index: number) => any;
+    hover: (e: MouseEvent, item: CardStackItem, index: number) => any;
     "update:activeIndex": (index: number) => any;
-    hover: (event: MouseEvent, item: CardStackItem, index: number) => any;
 }, string, import('vue').PublicProps, Readonly<CardStackProps> & Readonly<{
-    onClick?: ((event: MouseEvent, item: CardStackItem, index: number) => any) | undefined;
+    onClick?: ((e: MouseEvent, item: CardStackItem, index: number) => any) | undefined;
+    onHover?: ((e: MouseEvent, item: CardStackItem, index: number) => any) | undefined;
     "onUpdate:activeIndex"?: ((index: number) => any) | undefined;
-    onHover?: ((event: MouseEvent, item: CardStackItem, index: number) => any) | undefined;
 }>, {
     size: CardStackSize;
     mode: import('./type').CardStackMode;
@@ -33,6 +33,7 @@ declare const __VLS_component: import('vue').DefineComponent<CardStackProps, {
     stackOffset: number;
     stackRotate: number;
     stackExtractedOffset: number;
+    stackExtraction: import('./type').CardStackExtraction;
     peekOffset: number;
     peekScale: number;
     loop: boolean;

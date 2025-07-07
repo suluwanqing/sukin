@@ -30,27 +30,57 @@
 
         <hr>
 
-        <h2>模式：Stack (中尺寸卡片, 点击原地抽出)</h2>
+        <h2>模式：Stack (点击切换抽出/收回)</h2>
         <SuIcard :items="cardData.slice(0, 5)" mode="stack" size="medium" :stackExtractedOffset="80" :stackOffset="60"
-            :stackRotate="8" v-model:activeIndex="currentStackIndex" :autoplay="false" :showIndicators="false"
-            :showCarouselGoToFirst="false" :showNavigationButtons="false">
+            :stackRotate="8" v-model:activeIndex="currentStackToggleIndex" :autoplay="false" :showIndicators="false"
+            :showCarouselGoToFirst="false" :showNavigationButtons="false" stackExtraction="toggle">
             <template #default="{ item, isActive }">
                 <div class="stack-card" :class="{ 'is-active-stack-card': isActive }">
                     <p>{{ item.title }}</p>
                 </div>
             </template>
         </SuIcard>
-        <p class="status-text">当前激活栈式卡片: {{ cardData[currentStackIndex].title }}</p>
+        <p class="status-text">当前激活栈式卡片 (点击切换抽出/收回): {{ cardData[currentStackToggleIndex].title }}</p>
+
+        <hr>
+
+        <h2>模式：Stack (鼠标悬浮抽出)</h2>
+        <SuIcard :items="cardData.slice(0, 5)" mode="stack" size="medium" :stackExtractedOffset="60" :stackOffset="60"
+            :stackRotate="8" v-model:activeIndex="currentStackHoverIndex" :autoplay="false" :showIndicators="false"
+            :showCarouselGoToFirst="false" :showNavigationButtons="false" stackExtraction="hover">
+            <template #default="{ item, isActive }">
+                <div class="stack-card" :class="{ 'is-active-stack-card': isActive }">
+                    <p>{{ item.title }}</p>
+                </div>
+            </template>
+        </SuIcard>
+        <p class="status-text">当前激活栈式卡片 (鼠标悬浮抽出): {{ cardData[currentStackHoverIndex].title }}</p>
+
+        <hr>
+
+        <h2>模式：Stack (无抽出)</h2>
+        <SuIcard :items="cardData.slice(0, 5)" mode="stack" size="medium" :stackOffset="60" :stackRotate="8"
+            v-model:activeIndex="currentStackNoneIndex" :autoplay="false" :showIndicators="false"
+            :showCarouselGoToFirst="false" :showNavigationButtons="false" stackExtraction="none">
+            <template #default="{ item, isActive }">
+                <div class="stack-card" :class="{ 'is-active-stack-card': isActive }">
+                    <p>{{ item.title }}</p>
+                </div>
+            </template>
+        </SuIcard>
+        <p class="status-text">当前激活栈式卡片 (无抽出): {{ cardData[currentStackNoneIndex].title }}</p>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { SuIcard} from "sukin"
+import { SuIcard } from "sukin"
 
 const currentPeekIndex = ref(0);
 const currentCarouselIndex = ref(0);
-const currentStackIndex = ref(2);
+const currentStackToggleIndex = ref(2);
+const currentStackHoverIndex = ref(0);
+const currentStackNoneIndex = ref(4);
 
 const cardData = ref([
     { id: 1, title: '壮丽山景', imageUrl: 'https://picsum.photos/id/10/280/400', description: '雄伟的山峰直插云霄。' },
@@ -184,6 +214,7 @@ hr {
     font-size: 1.5em;
     color: #888;
     background-color: transparent;
+    /* Your example has transparent, if you want solid, change here */
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: all 0.5s ease;
 }

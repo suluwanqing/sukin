@@ -5,12 +5,11 @@
             <div v-for="(item, index) in props.items" :key="item.id || index"
                 :class="[bem.e('item'), { [bem.is('active', index === activeIndex)]: true }]"
                 :style="getItemStyle(index)" @click="onCardClick(item, index, $event)"
-                @mouseenter="handleCardHover($event, item, index, emit)">
-                <div :class="bem.e('content')">
-                    <slot :item="item" :index="index" :is-active="index === activeIndex">
-                        <span> {{ index + 1 }}</span>
-                    </slot>
-                </div>
+                @mouseenter="handleCardItemMouseEnter(index, item, $event)"
+                @mouseleave="handleCardItemMouseLeave(index, item, $event)">
+                <slot :item="item" :index="index" :is-active="index === activeIndex">
+                    <span> {{ index + 1 }}</span>
+                </slot>
             </div>
         </div>
 
@@ -33,7 +32,7 @@ import { computed, ref, watch, onMounted, onBeforeUnmount, defineOptions } from 
 import { withDefaults, defineProps, defineEmits, defineExpose, useModel } from 'vue';
 import { createNamespace } from '@sukin/utils';
 import type { CardStackProps, CardStackEmits, CardStackExpose, CardStackItem, CardStackSize } from './type';
-import { handleCardClick, handleCardHover } from './events';
+import { handleCardClick, handleCardHover as _handleCardHover } from './events';
 
 defineOptions({ name: 'SuIcard' });
 
@@ -53,7 +52,8 @@ const props = withDefaults(defineProps<CardStackProps>(), {
     cardHeight: undefined,
     stackOffset: 80,
     stackRotate: 6,
-    stackExtractedOffset: 60,
+    stackExtractedOffset: 40,
+    stackExtraction: 'toggle',
     peekOffset: 60,
     peekScale: 0.85,
     loop: true,
@@ -69,7 +69,8 @@ const emit = defineEmits<CardStackEmits>();
 
 const activeIndex = useModel(props, 'activeIndex');
 
-const centerIndex = computed(() => Math.floor(props.items.length / 2));
+const isStackActiveCardExtracted = ref(true);
+const hoveredCardLocalIndex = ref<number | null>(null);
 const totalItems = computed(() => props.items.length);
 
 const resolvedCardWidth = computed<number | string>(() => {
@@ -98,6 +99,7 @@ const getNumericResolvedCardWidth = computed<number>(() => {
 const containerClasses = computed(() => [
     bem.b(),
     bem.m(props.mode),
+    { [bem.m(`stack-extraction-${props.stackExtraction}`)]: props.mode === 'stack' }
 ]);
 
 const containerStyles = computed(() => ({
@@ -114,13 +116,7 @@ const trackStyle = computed(() => {
     if (props.mode !== 'carousel' || !totalItems.value) return {};
 
     const cardWithGap = getNumericResolvedCardWidth.value + 20;
-    // Calculate the horizontal offset needed to center the active card in the current view.
-    // The total width of the track content up to the active card's left edge
     const offsetToActiveCardLeft = activeIndex.value * cardWithGap;
-
-    // The amount to shift the track is (half of the viewport width) - (offset to active card's left) - (half of active card's width)
-    // Since the .su-card-stack element is already horizontally centered by `justify-content: center` in its flex container,
-    // we simply need to shift the track so the active card is centered relative to the component's visible width.
     const carouselOffset = -(offsetToActiveCardLeft - (getNumericResolvedCardWidth.value / 2));
 
     return {
@@ -147,16 +143,36 @@ const getItemStyle = (index: number) => {
             return { transform, zIndex, opacity };
 
         case 'stack':
-            const iValue = index - centerIndex.value;
-            let transformStack = `rotate(calc(${iValue} * var(--su-card-stack-rotate))) ` +
-                `translateX(calc(${iValue} * var(--su-card-stack-offset)))`;
-            let zIndexStack = `calc(50 - abs(${iValue}))`;
+            let iValue: number;
+            if (totalItems.value % 2 === 0) {
+                const virtualCenter = totalItems.value / 2 - 0.5;
+                iValue = index - virtualCenter;
+            } else {
+                const centerIndex = Math.floor(totalItems.value / 2);
+                iValue = index - centerIndex;
+            }
+
+            let transformStack = `translateX(-50%)`;
+            transformStack += ` translateX(calc(${iValue} * var(--su-card-stack-offset)))`;
+            transformStack += ` rotate(calc(${iValue} * var(--su-card-stack-rotate)))`;
+
+
+            let zIndexStack: string | number = '1';
+
 
             if (index === activeIndex.value) {
-                transformStack += ` translateY(calc(-1 * var(--su-stack-extracted-offset))) scale(1.08)`;
                 zIndexStack = '200';
+                if (props.stackExtraction === 'toggle' && isStackActiveCardExtracted.value) {
+                    transformStack += ` translateY(calc(-1 * var(--su-stack-extracted-offset)))`;
+                }
             }
-            return { transform: transformStack, zIndex: zIndexStack } as Record<string, string | number>;
+
+            if (props.mode === 'stack' && props.stackExtraction === 'hover' && index === hoveredCardLocalIndex.value) {
+                transformStack += ` translateY(calc(-1 * var(--su-stack-extracted-offset)))`;
+                zIndexStack = '300';
+            }
+
+            return { transform: transformStack, zIndex: zIndexStack, left: '50%', top: '0' } as Record<string, string | number>;
 
         default:
             return {};
@@ -201,6 +217,22 @@ const handleMouseLeave = () => {
         isPaused.value = false;
         startAutoplay();
     }
+    if (props.mode === 'stack') {
+        hoveredCardLocalIndex.value = null;
+    }
+};
+
+const handleCardItemMouseEnter = (index: number, item: CardStackItem, event: MouseEvent) => {
+    if (props.mode === 'stack') {
+        hoveredCardLocalIndex.value = index;
+    }
+    _handleCardHover(event, item, index, emit);
+};
+
+const handleCardItemMouseLeave = (index: number, item: CardStackItem, event: MouseEvent) => {
+    if (props.mode === 'stack' && hoveredCardLocalIndex.value === index) {
+        hoveredCardLocalIndex.value = null;
+    }
 };
 
 onMounted(() => {
@@ -211,16 +243,14 @@ onBeforeUnmount(() => {
     stopAutoplay();
 });
 
-watch(activeIndex, resetAutoplay);
-watch(totalItems, (newVal) => {
-    if (activeIndex.value >= newVal) {
-        activeIndex.value = 0;
-    }
-    resetAutoplay();
-});
-watch(() => [props.autoplay, props.autoplayInterval, props.loop, props.mode, props.pauseOnHover], resetAutoplay, { deep: true });
-
 const onCardClick = (item: CardStackItem, index: number, event: MouseEvent) => {
+    if (props.mode === 'stack' && index === activeIndex.value && props.stackExtraction === 'toggle') {
+        isStackActiveCardExtracted.value = !isStackActiveCardExtracted.value;
+    } else if (index !== activeIndex.value && props.mode === 'stack' && props.stackExtraction === 'toggle') {
+        // 如果点击了非激活卡片，并且当前模式是 toggle，则新激活的卡片应处于抽出状态
+        isStackActiveCardExtracted.value = true;
+    }
+
     setActive(index);
     resetAutoplay();
     handleCardClick(event, item, index, emit);
@@ -240,6 +270,21 @@ const setActive = (index: number) => {
         activeIndex.value = newIndex;
     }
 };
+
+watch(activeIndex, (newVal, oldVal) => {
+    if (props.mode === 'stack' && props.stackExtraction === 'toggle' && newVal !== oldVal) {
+        // 当 activeIndex 改变时，新的激活卡片默认处于抽出状态
+        isStackActiveCardExtracted.value = true;
+    }
+    resetAutoplay();
+});
+watch(totalItems, (newVal) => {
+    if (activeIndex.value >= newVal) {
+        activeIndex.value = 0;
+    }
+    resetAutoplay();
+});
+watch(() => [props.autoplay, props.autoplayInterval, props.loop, props.mode, props.pauseOnHover, props.stackExtraction], resetAutoplay, { deep: true });
 
 const next = () => setActive(activeIndex.value + 1);
 const prev = () => setActive(activeIndex.value - 1);
