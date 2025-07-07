@@ -5,7 +5,7 @@ export interface CardStackItem {
 
 export type CardStackMode = 'stack' | 'carousel' | 'peek';
 export type CardStackSize = 'small' | 'medium' | 'large';
-export type CardStackExtraction = 'toggle' | 'hover' | 'none';
+export type CardStackExtraction = 'click' | 'hover' | 'none';
 
 export interface CardStackProps {
     items: CardStackItem[];

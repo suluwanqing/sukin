@@ -49,9 +49,9 @@
     transform-origin: center bottom;
 }
 
-/* 非激活卡片在'toggle'或'none'模式下的CSS悬浮效果 */
+/* 非激活卡片在'click'或'none'模式下的CSS悬浮效果 */
 /* 注意：这个hover效果仅在 stackExtraction 不是 'hover' 时生效，因为 'hover' 模式下的hover由 JS 完全控制 */
-.su-card-stack--stack.su-card-stack--stack-extraction-toggle .su-card-stack__item:not(.is-active):hover,
+.su-card-stack--stack.su-card-stack--stack-extraction-click .su-card-stack__item:not(.is-active):hover,
 .su-card-stack--stack.su-card-stack--stack-extraction-none .su-card-stack__item:not(.is-active):hover {
     transform: translateY(-5px);
     z-index: 101;

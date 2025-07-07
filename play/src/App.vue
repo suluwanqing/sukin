@@ -31,9 +31,9 @@
         <hr>
 
         <h2>模式：Stack (点击切换抽出/收回)</h2>
-        <SuIcard :items="cardData.slice(0, 5)" mode="stack" size="medium" :stackExtractedOffset="80" :stackOffset="60"
+        <SuIcard :items="cardData.slice(0, 5)" mode="stack" size="medium" :stackExtractedOffset="45" :stackOffset="85"
             :stackRotate="8" v-model:activeIndex="currentStackToggleIndex" :autoplay="false" :showIndicators="false"
-            :showCarouselGoToFirst="false" :showNavigationButtons="false" stackExtraction="toggle">
+            :showCarouselGoToFirst="false" :showNavigationButtons="false" stackExtraction="click">
             <template #default="{ item, isActive }">
                 <div class="stack-card" :class="{ 'is-active-stack-card': isActive }">
                     <p>{{ item.title }}</p>

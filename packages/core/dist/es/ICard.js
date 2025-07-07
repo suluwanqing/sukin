@@ -1,4 +1,4 @@
-import { defineComponent, useModel, ref, computed, onMounted, onBeforeUnmount, watch, createElementBlock, openBlock, normalizeStyle, normalizeClass, createElementVNode, createCommentVNode, unref, Fragment, renderList, renderSlot, toDisplayString } from "vue";
+import { defineComponent, useModel, computed, ref, onMounted, onBeforeUnmount, watch, createElementBlock, openBlock, normalizeStyle, normalizeClass, createElementVNode, createCommentVNode, unref, Fragment, renderList, renderSlot, toDisplayString } from "vue";
 import { c as createNamespace, _ as _export_sfc, w as withInstall } from "./utils.js";
 const CLICK_EVENT = "click";
 const HOVER_EVENT = "hover";
@@ -8,7 +8,7 @@ const handleCardClick = (event, item, index, emit) => {
 const handleCardHover = (event, item, index, emit) => {
   emit(HOVER_EVENT, event, item, index);
 };
-const _hoisted_1 = ["onClick", "onMouseenter", "onMouseleave"];
+const _hoisted_1 = ["onClick", "onMouseenter"];
 const _hoisted_2 = ["onClick"];
 const _sfc_main = /* @__PURE__ */ defineComponent({
   ...{ name: "SuIcard" },
@@ -23,7 +23,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     stackOffset: { default: 80 },
     stackRotate: { default: 6 },
     stackExtractedOffset: { default: 40 },
-    stackExtraction: { default: "toggle" },
+    stackExtraction: { default: "click" },
     peekOffset: { default: 60 },
     peekScale: { default: 0.85 },
     loop: { type: Boolean, default: true },
@@ -45,28 +45,20 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const props = __props;
     const emit = __emit;
     const activeIndex = useModel(props, "activeIndex");
-    const isStackActiveCardExtracted = ref(true);
-    const hoveredCardLocalIndex = ref(null);
     const totalItems = computed(() => props.items.length);
+    const extractedIndex = ref(null);
+    const hoveredCardLocalIndex = ref(null);
     const resolvedCardWidth = computed(() => {
-      if (props.cardWidth !== void 0) {
-        return props.cardWidth;
-      }
+      if (props.cardWidth !== void 0) return props.cardWidth;
       return CARD_SIZES_MAP[props.size || "medium"].width;
     });
     const resolvedCardHeight = computed(() => {
-      if (props.cardHeight !== void 0) {
-        return props.cardHeight;
-      }
+      if (props.cardHeight !== void 0) return props.cardHeight;
       return CARD_SIZES_MAP[props.size || "medium"].height;
     });
     const getNumericResolvedCardWidth = computed(() => {
       const width = resolvedCardWidth.value;
-      if (typeof width === "string") {
-        const num = parseFloat(width);
-        return isNaN(num) ? 0 : num;
-      }
-      return width;
+      return typeof width === "number" ? width : parseFloat(width) || 0;
     });
     const containerClasses = computed(() => [
       bem.b(),
@@ -87,48 +79,39 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       const cardWithGap = getNumericResolvedCardWidth.value + 20;
       const offsetToActiveCardLeft = activeIndex.value * cardWithGap;
       const carouselOffset = -(offsetToActiveCardLeft - getNumericResolvedCardWidth.value / 2);
-      return {
-        "--carousel-offset": `${carouselOffset}px`
-      };
+      return { "--carousel-offset": `${carouselOffset}px` };
     });
     const getItemStyle = (index) => {
       switch (props.mode) {
         case "peek":
           const diff = index - activeIndex.value;
-          const zIndex = 10 - Math.abs(diff);
           let transform = "";
-          let opacity = 1;
           if (diff === 0) {
             transform = "translateX(0) scale(1)";
-            opacity = 1;
           } else {
             const sign = Math.sign(diff);
             transform = `translateX(calc(${sign} * var(--su-peek-offset))) scale(var(--su-peek-scale))`;
-            opacity = 0.6;
           }
-          return { transform, zIndex, opacity };
+          return { transform, zIndex: 10 - Math.abs(diff), opacity: diff === 0 ? 1 : 0.6 };
         case "stack":
-          let iValue;
-          if (totalItems.value % 2 === 0) {
-            const virtualCenter = totalItems.value / 2 - 0.5;
-            iValue = index - virtualCenter;
-          } else {
-            const centerIndex = Math.floor(totalItems.value / 2);
-            iValue = index - centerIndex;
-          }
-          let transformStack = `translateX(-50%)`;
-          transformStack += ` translateX(calc(${iValue} * var(--su-card-stack-offset)))`;
-          transformStack += ` rotate(calc(${iValue} * var(--su-card-stack-rotate)))`;
-          let zIndexStack = "1";
-          if (index === activeIndex.value) {
+          const virtualCenter = totalItems.value / 2 - 0.5;
+          const iValue = index - virtualCenter;
+          let transformStack = `translateX(-50%) translateX(calc(${iValue} * var(--su-card-stack-offset))) rotate(calc(${iValue} * var(--su-card-stack-rotate)))`;
+          let zIndexStack = 0;
+          let isExtracted = false;
+          if (props.stackExtraction === "click" && index === extractedIndex.value) {
+            isExtracted = true;
             zIndexStack = "200";
-            if (props.stackExtraction === "toggle" && isStackActiveCardExtracted.value) {
-              transformStack += ` translateY(calc(-1 * var(--su-stack-extracted-offset)))`;
-            }
           }
-          if (props.mode === "stack" && props.stackExtraction === "hover" && index === hoveredCardLocalIndex.value) {
-            transformStack += ` translateY(calc(-1 * var(--su-stack-extracted-offset)))`;
+          if (props.stackExtraction === "hover" && index === hoveredCardLocalIndex.value) {
+            isExtracted = true;
             zIndexStack = "300";
+          }
+          if (props.stackExtraction === "none" && index === activeIndex.value) {
+            zIndexStack = "200";
+          }
+          if (isExtracted) {
+            transformStack += ` translateY(calc(-1 * var(--su-stack-extracted-offset)))`;
           }
           return { transform: transformStack, zIndex: zIndexStack, left: "50%", top: "0" };
         default:
@@ -140,22 +123,16 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     const startAutoplay = () => {
       if (props.autoplay && !isPaused.value && totalItems.value > 1) {
         stopAutoplay();
-        autoplayTimer = setInterval(() => {
-          setActive(activeIndex.value + 1);
-        }, props.autoplayInterval);
+        autoplayTimer = setInterval(() => setActive(activeIndex.value + 1), props.autoplayInterval);
       }
     };
     const stopAutoplay = () => {
-      if (autoplayTimer) {
-        clearInterval(autoplayTimer);
-        autoplayTimer = null;
-      }
+      if (autoplayTimer) clearInterval(autoplayTimer);
+      autoplayTimer = null;
     };
     const resetAutoplay = () => {
       stopAutoplay();
-      if (props.autoplay && !isPaused.value) {
-        startAutoplay();
-      }
+      if (props.autoplay && !isPaused.value) startAutoplay();
     };
     const handleMouseEnter = () => {
       if (props.pauseOnHover && props.autoplay) {
@@ -168,32 +145,22 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         isPaused.value = false;
         startAutoplay();
       }
-      if (props.mode === "stack") {
-        hoveredCardLocalIndex.value = null;
-      }
+      hoveredCardLocalIndex.value = null;
     };
     const handleCardItemMouseEnter = (index, item, event) => {
-      if (props.mode === "stack") {
-        hoveredCardLocalIndex.value = index;
-      }
+      if (props.mode === "stack") hoveredCardLocalIndex.value = index;
       handleCardHover(event, item, index, emit);
     };
-    const handleCardItemMouseLeave = (index, item, event) => {
-      if (props.mode === "stack" && hoveredCardLocalIndex.value === index) {
-        hoveredCardLocalIndex.value = null;
-      }
+    const handleCardItemMouseLeave = () => {
+      hoveredCardLocalIndex.value = null;
     };
-    onMounted(() => {
-      resetAutoplay();
-    });
-    onBeforeUnmount(() => {
-      stopAutoplay();
-    });
     const onCardClick = (item, index, event) => {
-      if (props.mode === "stack" && index === activeIndex.value && props.stackExtraction === "toggle") {
-        isStackActiveCardExtracted.value = !isStackActiveCardExtracted.value;
-      } else if (index !== activeIndex.value && props.mode === "stack" && props.stackExtraction === "toggle") {
-        isStackActiveCardExtracted.value = true;
+      if (props.mode === "stack" && props.stackExtraction === "click") {
+        if (extractedIndex.value === index) {
+          extractedIndex.value = null;
+        } else {
+          extractedIndex.value = index;
+        }
       }
       setActive(index);
       resetAutoplay();
@@ -201,32 +168,28 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
     const setActive = (index) => {
       if (!totalItems.value) return;
-      let newIndex = index;
-      if (props.loop) {
-        newIndex = (index % totalItems.value + totalItems.value) % totalItems.value;
-      } else {
-        newIndex = Math.max(0, Math.min(index, totalItems.value - 1));
-      }
+      let newIndex = props.loop ? (index % totalItems.value + totalItems.value) % totalItems.value : Math.max(0, Math.min(index, totalItems.value - 1));
       if (newIndex !== activeIndex.value) {
         activeIndex.value = newIndex;
       }
     };
-    watch(activeIndex, (newVal, oldVal) => {
-      if (props.mode === "stack" && props.stackExtraction === "toggle" && newVal !== oldVal) {
-        isStackActiveCardExtracted.value = true;
-      }
-      resetAutoplay();
-    });
+    onMounted(resetAutoplay);
+    onBeforeUnmount(stopAutoplay);
+    watch(activeIndex, resetAutoplay);
     watch(totalItems, (newVal) => {
-      if (activeIndex.value >= newVal) {
-        activeIndex.value = 0;
+      if (activeIndex.value >= newVal && newVal > 0) activeIndex.value = 0;
+      else if (newVal === 0) activeIndex.value = 0;
+      if (extractedIndex.value !== null && extractedIndex.value >= newVal) {
+        extractedIndex.value = null;
       }
       resetAutoplay();
     });
     watch(() => [props.autoplay, props.autoplayInterval, props.loop, props.mode, props.pauseOnHover, props.stackExtraction], resetAutoplay, { deep: true });
-    const next = () => setActive(activeIndex.value + 1);
-    const prev = () => setActive(activeIndex.value - 1);
-    __expose({ setActive, next, prev });
+    __expose({
+      setActive,
+      next: () => setActive(activeIndex.value + 1),
+      prev: () => setActive(activeIndex.value - 1)
+    });
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
         class: normalizeClass(containerClasses.value),
@@ -245,7 +208,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
               style: normalizeStyle(getItemStyle(index)),
               onClick: ($event) => onCardClick(item, index, $event),
               onMouseenter: ($event) => handleCardItemMouseEnter(index, item, $event),
-              onMouseleave: ($event) => handleCardItemMouseLeave(index)
+              onMouseleave: _cache[0] || (_cache[0] = ($event) => handleCardItemMouseLeave())
             }, [
               renderSlot(_ctx.$slots, "default", {
                 item,
@@ -260,7 +223,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         props.mode === "carousel" && props.showCarouselGoToFirst && totalItems.value > 1 && unref(activeIndex) === totalItems.value - 1 && !props.loop ? (openBlock(), createElementBlock("button", {
           key: 0,
           class: normalizeClass(unref(bem).e("go-to-first")),
-          onClick: _cache[0] || (_cache[0] = ($event) => setActive(0)),
+          onClick: _cache[1] || (_cache[1] = ($event) => setActive(0)),
           "aria-label": "Go to first card"
         }, " 返回 ", 2)) : createCommentVNode("", true),
         props.mode === "peek" && props.showIndicators && totalItems.value > 1 ? (openBlock(), createElementBlock("div", {
@@ -280,7 +243,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Icard = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-641d6204"]]);
+const Icard = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-90e86682"]]);
 const SuIcard = withInstall(Icard);
 export {
   SuIcard as S
