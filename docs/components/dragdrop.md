@@ -39,9 +39,8 @@ demo-preview=../demo/dragdrop/NoCount.vue
 demo-preview=../demo/dragdrop/CustomKey.vue
 :::
 
-## DragDrop API
 
-### Props
+## Props
 
 | Name       | Description                                            | Type             | Default |
 | ---------- | ------------------------------------------------------ | ---------------- | ------- |
@@ -49,7 +48,7 @@ demo-preview=../demo/dragdrop/CustomKey.vue
 | show-count | 是否显示可用项和已放置项的数量统计                     | `boolean`        | `true`  |
 | onlykey    | 用于在项目中查找唯一标识符的路径（例如 `'data.uuid'`） | `string`         | `'.id'` |
 
-### Events
+## Events
 
 | Name   | Description                                                      | Type                                                                    |
 | ------ | ---------------------------------------------------------------- | ----------------------------------------------------------------------- |

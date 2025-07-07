@@ -87,7 +87,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, defineOptions } from 'vue';
-import type { SuSelectionProps, SelectionEmits, OptionDataItem, SelectionItem, GroupDataItem, CascaderOption } from './type';
+import type { SuSelectionProps, SelectionEmits, OptionDataItem, SelectionItem, GroupDataItem } from './type';
 import { useSelection } from './events';
 import SuOption from './Item.vue';
 import SuIcon from '../Icon/Icon.vue';

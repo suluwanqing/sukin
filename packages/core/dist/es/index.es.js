@@ -8,6 +8,7 @@ import { S as SuDragDrop } from "./Dragdrop.js";
 import { S as SuSchedule } from "./Schedule.js";
 import { S as SuDataform } from "./Dataform.js";
 import { S as SuSelection } from "./Selection.js";
+import { S as SuIcard } from "./ICard.js";
 const components = [
   SuButton,
   SuIcon,
@@ -16,7 +17,8 @@ const components = [
   SuDragDrop,
   SuSchedule,
   SuDataform,
-  SuSelection
+  SuSelection,
+  SuIcard
 ];
 const installer = makeInstaller(components);
 library.add(fas);
@@ -26,6 +28,7 @@ export {
   SuButtonGroup,
   SuDataform,
   SuDragDrop,
+  SuIcard,
   SuIcon,
   SuSchedule,
   SuSelection,

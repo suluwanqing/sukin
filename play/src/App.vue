@@ -1,320 +1,195 @@
 <template>
-    <div id="app">
-        <h1>SuSelection 组件示例</h1>
+    <div class="app-container">
+        <h2>模式：Peek (大尺寸卡片, 自动播放, 鼠标悬停暂停, 带指示器)</h2>
+        <SuIcard :items="cardData" mode="peek" v-model:activeIndex="currentPeekIndex" size="large" :loop="true"
+            :autoplay="true" :autoplayInterval="4000" :pauseOnHover="true" :showIndicators="true">
+            <template #default="{ item, isActive }">
+                <div class="custom-card" :class="{ 'is-active-card': isActive }">
+                    <img :src="item.imageUrl" :alt="item.title">
+                    <h3>{{ item.title }}</h3>
+                    <p v-if="isActive">{{ item.description }}</p>
+                </div>
+            </template>
+        </SuIcard>
+        <p class="status-text">当前激活卡片 (大尺寸): {{ cardData[currentPeekIndex].title }}</p>
 
-        <div class="section">
-            <h2>1. 单选模式 (Dropdown, 默认值, 清除功能)</h2>
-            <p>当前值: `{{ singleValue || '无' }}`</p>
-            <SuSelection v-model="singleValue" :items="basicOptions" placeholder="请选择一个城市" clearable mode="dropdown"
-                @change="logChange('单选', $event)" />
-            <button @click="singleValue = 'beijing'">设为北京</button>
-            <button @click="singleValue = 'shanghai'">设为上海</button>
-            <button @click="singleValue = null">清空</button>
-        </div>
+        <hr>
 
-        <div class="section">
-            <h2>2. 多选模式 (Dropdown, 默认值, 清除功能)</h2>
-            <p>当前值: `{{ multipleValues.join(', ') || '无' }}`</p>
-            <SuSelection v-model="multipleValues" :items="basicOptions" multiple placeholder="请选择多个城市" clearable
-                mode="dropdown" @change="logChange('多选', $event)" />
-            <button @click="multipleValues = ['beijing', 'shanghai']">设为北京和上海</button>
-            <button @click="multipleValues = []">清空</button>
-        </div>
+        <h2>模式：Carousel (小尺寸卡片, 自动播放, 非循环, 尾部跳转按钮)</h2>
+        <SuIcard :items="cardData" mode="carousel" size="small" :cardWidth="160" :cardHeight="220" :loop="false"
+            :autoplay="true" :autoplayInterval="3000" :pauseOnHover="true" v-model:activeIndex="currentCarouselIndex"
+            :showIndicators="false" :showCarouselGoToFirst="true" :showNavigationButtons="false">
+            <template #default="{ item }">
+                <div class="carousel-card">
+                    <img :src="item.imageUrl" :alt="item.title">
+                    <h4>{{ item.title }}</h4>
+                </div>
+            </template>
+        </SuIcard>
+        <p class="status-text">当前激活卡片 (小尺寸): {{ cardData[currentCarouselIndex].title }}</p>
 
-        <div class="section">
-            <h2>3. 禁用模式 (Dropdown)</h2>
-            <p>单选 (禁用):</p>
-            <SuSelection v-model="singleValue" :items="basicOptions" disabled placeholder="此组件已禁用" mode="dropdown" />
-            <p>多选 (禁用):</p>
-            <SuSelection v-model="multipleValues" :items="basicOptions" multiple disabled placeholder="此组件已禁用"
-                mode="dropdown" />
-        </div>
+        <hr>
 
-        <div class="section">
-            <h2>4. 不同尺寸 (Dropdown)</h2>
-            <p>Small:</p>
-            <SuSelection v-model="singleValueSize" :items="basicOptions" size="small" placeholder="小尺寸"
-                mode="dropdown" />
-            <p>Default:</p>
-            <SuSelection v-model="singleValueSize" :items="basicOptions" size="default" placeholder="默认尺寸"
-                mode="dropdown" />
-            <p>Large:</p>
-            <SuSelection v-model="singleValueSize" :items="basicOptions" size="large" placeholder="大尺寸"
-                mode="dropdown" />
-        </div>
-
-        <div class="section">
-            <h2>5. 不同形状 (Dropdown)</h2>
-            <p>Round (默认):</p>
-            <SuSelection v-model="singleValueShape" :items="basicOptions" shape="round" placeholder="圆形"
-                mode="dropdown" />
-            <p>Square:</p>
-            <SuSelection v-model="singleValueShape" :items="basicOptions" shape="square" placeholder="方形"
-                mode="dropdown" />
-        </div>
-
-        <div class="section">
-            <h2>6. Box 模式 (类似按钮组/标签选择器)</h2>
-            <p>当前值: `{{ boxValues.join(', ') || '无' }}`</p>
-            <SuSelection v-model="boxValues" :items="basicOptions" multiple mode="box" />
-            <button @click="boxValues = ['beijing', 'hangzhou']">设为北京和杭州</button>
-            <button @click="boxValues = []">清空</button>
-        </div>
-
-        <div class="section">
-            <h2>7. 包含禁用选项和分组 (Dropdown 模式)</h2>
-            <p>当前值: `{{ groupedValues.join(', ') || '无' }}`</p>
-            <SuSelection v-model="groupedValues" :items="groupedOptions" multiple clearable placeholder="请选择 (含分组)"
-                mode="dropdown" @change="logChange('分组多选', $event)" />
-            <button @click="groupedValues = ['shanghai', 'chengdu']">设为上海和成都</button>
-            <button @click="groupedValues = []">清空</button>
-        </div>
-
-        <div class="section">
-            <h2>8. 默认无选中 (Dropdown)</h2>
-            <p>当前值: `{{ noDefaultValue || '无' }}`</p>
-            <SuSelection v-model="noDefaultValue" :items="basicOptions" placeholder="默认无选中" mode="dropdown" />
-        </div>
-
-        <div class="section">
-            <h2>9. 联动选择器 (省市县三级联动)</h2>
-            <p>已选: {{ selectedProvinceLabel || '无' }} > {{ selectedCityLabel || '无' }} > {{ selectedDistrictLabel || '无'
-                }}</p>
-            <div class="linked-selectors">
-                <SuSelection :modelValue="selectedProvince" @update:modelValue="handleProvinceChange"
-                    :items="provinceOptions" placeholder="请选择省份" mode="dropdown" />
-                <SuSelection :modelValue="selectedCity" @update:modelValue="handleCityChange" :items="cityOptions"
-                    placeholder="请选择城市" mode="dropdown" :disabled="!selectedProvince" />
-                <SuSelection :modelValue="selectedDistrict" @update:modelValue="selectedDistrict = $event"
-                    :items="districtOptions" placeholder="请选择区县" mode="dropdown" :disabled="!selectedCity" />
-            </div>
-            <button @click="resetLinkedSelectors">重置联动选择</button>
-        </div>
-
-        <div class="section">
-            <button @click="resetAll">重置所有示例</button>
-        </div>
+        <h2>模式：Stack (中尺寸卡片, 点击原地抽出)</h2>
+        <SuIcard :items="cardData.slice(0, 5)" mode="stack" size="medium" :stackExtractedOffset="80" :stackOffset="60"
+            :stackRotate="8" v-model:activeIndex="currentStackIndex" :autoplay="false" :showIndicators="false"
+            :showCarouselGoToFirst="false" :showNavigationButtons="false">
+            <template #default="{ item, isActive }">
+                <div class="stack-card" :class="{ 'is-active-stack-card': isActive }">
+                    <p>{{ item.title }}</p>
+                </div>
+            </template>
+        </SuIcard>
+        <p class="status-text">当前激活栈式卡片: {{ cardData[currentStackIndex].title }}</p>
     </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { SuSelection } from 'sukin'; // <<< 关键：只导入 SuSelection
+import { ref } from 'vue';
+import { SuIcard} from "sukin"
 
-// --- 示例数据 ---
-const basicOptions = [
-    { label: '北京', value: 'beijing' },
-    { label: '上海', value: 'shanghai' },
-    { label: '广州', value: 'guangzhou' },
-    { label: '深圳', value: 'shenzhen', disabled: true }, // 禁用项
-    { label: '杭州', value: 'hangzhou' },
-];
+const currentPeekIndex = ref(0);
+const currentCarouselIndex = ref(0);
+const currentStackIndex = ref(2);
 
-const groupedOptions = [
-    {
-        label: '直辖市',
-        options: [
-            { label: '北京', value: 'beijing' },
-            { label: '上海', value: 'shanghai' },
-            { label: '天津', value: 'tianjin', disabled: true },
-            { label: '重庆', value: 'chongqing' },
-        ]
-    },
-    {
-        label: '省会城市',
-        options: [
-            { label: '广州', value: 'guangzhou' },
-            { label: '深圳', value: 'shenzhen' },
-            { label: '杭州', value: 'hangzhou' },
-            { label: '成都', value: 'chengdu' },
-        ]
-    },
-    { label: '其他城市', value: 'other' },
-];
-
-// --- 联动选择器数据 ---
-const regionsData = [
-    {
-        value: 'gd', label: '广东省', children: [
-            {
-                value: 'gz', label: '广州市', children: [
-                    { value: 'th', label: '天河区' },
-                    { value: 'hy', label: '海珠区' },
-                ]
-            },
-            {
-                value: 'sz', label: '深圳市', children: [
-                    { value: 'ft', label: '福田区' },
-                    { value: 'lh', label: '罗湖区' },
-                ]
-            },
-        ]
-    },
-    {
-        value: 'zj', label: '浙江省', children: [
-            {
-                value: 'hz', label: '杭州市', children: [
-                    { value: 'xh', label: '西湖区' },
-                    { value: 'xd', label: '萧山区' },
-                ]
-            },
-            {
-                value: 'nb', label: '宁波市', children: [
-                    { value: 'jy', label: '江北区' },
-                    { value: 'yh', label: '鄞州区' },
-                ]
-            },
-        ]
-    },
-];
-
-
-// --- 响应式数据 ---
-const singleValue = ref('shanghai');
-const multipleValues = ref(['beijing', 'guangzhou']);
-const singleValueSize = ref(null);
-const singleValueShape = ref(null);
-const boxValues = ref(['hangzhou']);
-const groupedValues = ref(['chongqing', 'chengdu']);
-const noDefaultValue = ref(null);
-
-// 联动选择器的数据
-const selectedProvince = ref(null);
-const selectedCity = ref(null);
-const selectedDistrict = ref(null);
-
-
-// --- 联动选择器 computed 属性 ---
-const provinceOptions = computed(() => {
-    return regionsData.map(p => ({ label: p.label, value: p.value }));
-});
-
-const cityOptions = computed(() => {
-    if (!selectedProvince.value) {
-        return [];
-    }
-    const province = regionsData.find(p => p.value === selectedProvince.value);
-    return province ? province.children.map(c => ({ label: c.label, value: c.value })) : [];
-});
-
-const districtOptions = computed(() => {
-    if (!selectedCity.value) {
-        return [];
-    }
-    const province = regionsData.find(p => p.value === selectedProvince.value);
-    if (!province) {
-        return [];
-    }
-    const city = province.children.find(c => c.value === selectedCity.value);
-    return city ? city.children.map(d => ({ label: d.label, value: d.value })) : [];
-});
-
-// 显示联动选择器的选中文本
-const selectedProvinceLabel = computed(() => provinceOptions.value.find(p => p.value === selectedProvince.value)?.label);
-const selectedCityLabel = computed(() => cityOptions.value.find(c => c.value === selectedCity.value)?.label);
-const selectedDistrictLabel = computed(() => districtOptions.value.find(d => d.value === selectedDistrict.value)?.label);
-
-
-// --- 方法 ---
-const logChange = (type, value) => {
-    console.log(`${type} change 事件触发，新值:`, value);
-};
-
-// 联动选择器的处理函数
-const handleProvinceChange = (value) => {
-    selectedProvince.value = value;
-    selectedCity.value = null; // 省份变化，清空城市和区县
-    selectedDistrict.value = null;
-};
-
-const handleCityChange = (value) => {
-    selectedCity.value = value;
-    selectedDistrict.value = null; // 城市变化，清空区县
-};
-
-const resetLinkedSelectors = () => {
-    selectedProvince.value = null;
-    selectedCity.value = null;
-    selectedDistrict.value = null;
-    console.log('联动选择器已重置！');
-};
-
-const resetAll = () => {
-    singleValue.value = 'shanghai';
-    multipleValues.value = ['beijing', 'guangzhou'];
-    singleValueSize.value = null;
-    singleValueShape.value = null;
-    boxValues.value = ['hangzhou'];
-    groupedValues.value = ['chongqing', 'chengdu'];
-    noDefaultValue.value = null;
-    resetLinkedSelectors(); // 重置联动选择器
-    console.log('所有示例已重置！');
-};
+const cardData = ref([
+    { id: 1, title: '壮丽山景', imageUrl: 'https://picsum.photos/id/10/280/400', description: '雄伟的山峰直插云霄。' },
+    { id: 2, title: '魔法森林', imageUrl: 'https://picsum.photos/id/11/280/400', description: '隐藏的小径和古老的树木。' },
+    { id: 3, title: '浩瀚海洋', imageUrl: 'https://picsum.photos/id/12/280/400', description: '无尽的蓝色，汹涌的波浪。' },
+    { id: 4, title: '都市霓虹', imageUrl: 'https://picsum.photos/id/13/280/400', description: '灯火璀璨，繁忙的城市。' },
+    { id: 5, title: '寂静沙漠', imageUrl: 'https://picsum.photos/id/14/280/400', description: '阳光下的寂静沙丘。' },
+    { id: 6, title: '神秘湖泊', imageUrl: 'https://picsum.photos/id/15/280/400', description: '平静的湖水倒映着浮云。' },
+]);
 </script>
 
 <style>
-/* App.vue 的基本样式 */
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    margin-top: 60px;
+body {
+    background-color: #f4f7f9;
+    margin: 0;
+    padding: 0;
+}
+
+.app-container {
+    max-width: 900px;
+    margin: 40px auto;
     padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    color: #4a4a4a;
+}
+
+hr {
+    margin: 80px 0;
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.status-text {
+    text-align: center;
+    margin-top: 50px;
+    font-weight: bold;
+    color: #666;
+    font-size: 1.1em;
+}
+
+.custom-card {
+    width: 100%;
+    height: 100%;
+    color: white;
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    padding-bottom: 25px;
 }
 
-.section {
-    border: 1px solid #eee;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+.custom-card img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.6);
+    transition: transform 0.5s ease;
 }
 
-.section h2 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: #333;
-    border-bottom: 1px dashed #ddd;
-    padding-bottom: 10px;
+.custom-card h3 {
+    margin: 0 15px 5px 15px;
+    font-size: 1.6em;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
-.section p {
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #666;
+.custom-card p {
+    margin: 0 15px 0 15px;
+    font-size: 0.9em;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
-.su-selection {
-    margin-bottom: 15px;
-    margin-right: 10px;
+.custom-card.is-active-card h3,
+.custom-card.is-active-card p {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.linked-selectors {
+.custom-card.is-active-card img {
+    transform: scale(1.05);
+}
+
+.carousel-card {
+    width: 100%;
+    height: 100%;
     display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    /* 允许在小屏幕上换行 */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-button {
-    padding: 8px 15px;
-    margin-right: 10px;
-    background-color: #409eff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+.carousel-card img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
 }
 
-button:hover {
-    background-color: #66b1ff;
+.carousel-card h4 {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #555;
 }
 
-button:active {
-    background-color: #3a8ee6;
+.stack-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: #888;
+    background-color: transparent;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.5s ease;
+}
+
+.stack-card.is-active-stack-card {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ddd;
 }
 </style>

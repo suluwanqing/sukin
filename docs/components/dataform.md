@@ -47,9 +47,9 @@ demo-preview=../demo/dataform/Direction.vue
 demo-preview=../demo/dataform/Background.vue
 :::
 
-## SuDataform API
 
-### Props
+
+## Props
 
 | Name              | Description                  | Type                             | Default      |
 | ----------------- | ---------------------------- | -------------------------------- | ------------ |
@@ -59,14 +59,14 @@ demo-preview=../demo/dataform/Background.vue
 | `size`            | 组件的整体尺寸               | `'small' \| 'medium' \| 'large'` | `'medium'`   |
 | `backgroundImage` | 组件的背景图片 URL           | `string`                         | `''`         |
 
-### Events
+## Events
 
 | Name     | Description                                  | Type                                                    |
 | -------- | -------------------------------------------- | ------------------------------------------------------- |
 | `submit` | 当表单（或分步表单的最后一步）成功提交时触发 | `(formType: string, data: Record<string, any>) => void` |
 | `close`  | 当用户点击“关闭”按钮时触发                   | `() => void`                                            |
 
-### Expose
+## Expose
 
 | Name        | Description                          | Type         |
 | ----------- | ------------------------------------ | ------------ |
@@ -78,7 +78,7 @@ demo-preview=../demo/dataform/Background.vue
 
 为了方便您构建 `sections` 数据，以下是核心的类型接口定义。
 
-### FormField
+## FormField
 
 ```typescript
 interface FormField {

@@ -79,9 +79,9 @@ demo-preview=../demo/selection/Size.vue
 demo-preview=../demo/selection/Cascader.vue
 :::
 
-## SuSelection API
 
-### Props
+
+## Props
 
 | Name        | Description      | Type                                                      | Default     |
 | ----------- | ---------------- | --------------------------------------------------------- | ----------- |
@@ -95,7 +95,7 @@ demo-preview=../demo/selection/Cascader.vue
 | placeholder | 占位文本         | `string`                                                  | `'请选择'`  |
 | clearable   | 是否显示清除按钮 | `boolean` (仅在 `'dropdown'` 或 `'cascader'` 模式下有效)  | `false`     |
 
-### Events
+## Events
 
 | Name              | Description                | Type                                          |
 | ----------------- | -------------------------- | --------------------------------------------- |

@@ -53,6 +53,7 @@ export default defineConfig({
         collapsed: false,
         items: [
           { text: "下拉选择", link: 'components/selection' },
+          { text: '卡片', link: 'components/icard' }
         ]
       }
     ],

@@ -64,7 +64,7 @@ demo-preview=../demo/alert/Desc.vue
 demo-preview=../demo/alert/IconDesc.vue
 :::
 
-## Alert API
+
 
 ### Props
 
@@ -78,20 +78,20 @@ demo-preview=../demo/alert/IconDesc.vue
 | show-icon   | 是否展示图标 | `boolean`                                            | false   |
 | effect      | 主题样式     | `enum` - `'light'\| 'dark'\`                         | light   |
 
-### Events
+## Events
 
 | Name  | Description             | Type                         |
 | ----- | ----------------------- | ---------------------------- |
 | close | 关闭 Alert 时触发的事件 | `(event: MouseEvent)=> void` |
 
-### Slots
+## Slots
 
 | Name    | Description                         |
 | ------- | ----------------------------------- |
 | default | 默认插槽，用于设置 Alert 的内容描述 |
 | title   | 标题的内容                          |
 
-### Expose
+## Expose
 
 | Name  | Description | Type         |
 | ----- | ----------- | ------------ |

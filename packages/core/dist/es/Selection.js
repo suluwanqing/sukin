@@ -422,7 +422,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Selection = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-731cd3bc"]]);
+const Selection = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-fef4f3d8"]]);
 const SuSelection = withInstall(Selection);
 export {
   SuSelection as S

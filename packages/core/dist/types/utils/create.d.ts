@@ -6,6 +6,6 @@ declare function createNamespace(name: string): {
     bm: (blockSuffix?: string, modifier?: string) => string;
     em: (element?: string, modifier?: string) => string;
     bem: (blockSuffix?: string, element?: string, modifier?: string) => string;
-    is: (name: string, state: boolean | undefined) => string;
+    is: (name: string, state?: boolean) => string;
 };
 export { createNamespace };

@@ -79,9 +79,8 @@ demo-preview=../demo/button/Tag.vue
 
 
 
-## Button API
 
-### Props
+## Props
 
 | Name              | Description                       | Type                                                             | Default |
 | ----------------- | --------------------------------- | ---------------------------------------------------------------- | ------- |
@@ -100,20 +99,20 @@ demo-preview=../demo/button/Tag.vue
 | use-throttle      | 是否使用节流模式                  | `boolean`                                                        | true    |
 | throttle-duration | 节流模式下，节流时间间隔(ms)      | `number`                                                         | 500     |
 
-### Events
+## Events
 
 | Name  | Description  | Type                         |
 | ----- | ------------ | ---------------------------- |
 | click | 按钮点击事件 | `(event: MouseEvent)=> void` |
 
-### Slots
+## Slots
 
 | Name    | Description        |
 | ------- | ------------------ |
 | default | 默认插槽, 按钮内容 |
 | loading | 自定义加载图标     |
 
-### Expose
+## Expose
 
 | Name     | Description    | Type                                 |
 | -------- | -------------- | ------------------------------------ |
@@ -122,9 +121,9 @@ demo-preview=../demo/button/Tag.vue
 | type     | 按钮类型       | `ComputedRef<''\|'primary' \|...>`   |
 | disabled | 按钮禁用状态   | `ComputedRef<boolean>`               |
 
-## ButtonGroup API
 
-### Props
+
+## Props
 
 | Name     | Description          | Type                                                             | Default |
 | -------- | -------------------- | ---------------------------------------------------------------- | ------- |
@@ -132,7 +131,7 @@ demo-preview=../demo/button/Tag.vue
 | type     | 类型                 | `enum` - `'primary'\| 'success'\| 'warning'\| 'danger'\| 'info'` | info    |
 | disabled | 按钮组是否为禁用状态 | `boolean`                                                        | false   |
 
-### Slots
+## Slots
 
 | Name    | Description | Sub Component |
 | ------- | ----------- | ------------- |

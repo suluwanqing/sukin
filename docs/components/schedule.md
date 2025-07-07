@@ -55,9 +55,8 @@ demo-preview=../demo/schedule/Size.vue
 demo-preview=../demo/schedule/Count.vue
 :::
 
-## SuSchedule API
 
-### Props
+## Props
 
 | Name             | Description                                              | Type                             | Default        |
 | ---------------- | -------------------------------------------------------- | -------------------------------- | -------------- |
@@ -69,19 +68,19 @@ demo-preview=../demo/schedule/Count.vue
 | `size`           | 组件的整体尺寸                                           | `'small' \| 'medium' \| 'large'` | `'medium'`     |
 | `quantityKey`    | `draggableItems` 数据项中用于限制数量的键名              | `string`                         | `'quantity'`   |
 
-### Events
+## Events
 
 | Name          | Description                                                                       | Type                            |
 | ------------- | --------------------------------------------------------------------------------- | ------------------------------- |
 | `export-data` | 当用户点击“保存数据”按钮时触发。回调参数 `payload` 包含了当前表格的所有状态数据。 | `(payload: ExportData) => void` |
 
-### Slots
+## Slots
 
 | Name | Description        |
 | ---- | ------------------ |
 | —    | 该组件暂不提供插槽 |
 
-### Expose
+## Expose
 
 | Name               | Description                               | Type                    |
 | ------------------ | ----------------------------------------- | ----------------------- |
@@ -95,7 +94,7 @@ demo-preview=../demo/schedule/Count.vue
 
 为了方便您在使用时进行类型标注，以下是组件 `Props` 和 `Events` 中用到的主要类型接口。
 
-### DraggableItem
+## DraggableItem
 
 ```typescript
 // 可拖拽项

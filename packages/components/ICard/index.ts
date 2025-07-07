@@ -1,2 +1,5 @@
-//用来整合组件,最后统一导出
+import Icard from "./Icard.vue";
+import { withInstall } from "@sukin/utils";
+
+export const SuIcard = withInstall(Icard);
 

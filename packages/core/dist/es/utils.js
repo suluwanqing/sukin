@@ -20,7 +20,7 @@ function createBEM(prefixName) {
   const bm = (blockSuffix = "", modifier = "") => blockSuffix && modifier ? _bem(prefixName, blockSuffix, "", modifier) : "";
   const em = (element = "", modifier = "") => element && modifier ? _bem(prefixName, "", element, modifier) : "";
   const bem = (blockSuffix = "", element = "", modifier = "") => blockSuffix && element && modifier ? _bem(prefixName, blockSuffix, element, modifier) : "";
-  const is = (name, state) => state ? `is-${name}` : "";
+  const is = (name, state = false) => state ? `is-${name}` : "";
   return { b, e, m, be, bm, em, bem, is };
 }
 function createNamespace(name) {
