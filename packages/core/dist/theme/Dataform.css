@@ -1,5 +1,4 @@
-
-:root {
+.su-form-panel[data-v-58d2590b] {
   --su-form-panel-bg-image: none;
   --su-form-panel-primary-color: #6a11cb;
   --su-form-panel-primary-hover-color: #2575fc;
@@ -12,11 +11,10 @@
   --su-form-panel-border-color: #e5e7eb;
   --su-form-panel-error-color: #e53e3e;
   --su-form-panel-error-focus-color: rgba(229, 62, 62, 0.2);
-  --su-form-panel-bg-color-with-image: rgba(255, 255, 255, 0.85); 
-  --su-form-panel-text-color-with-image: #1f2937; 
-}
+  --su-form-panel-bg-color-with-image: rgba(255, 255, 255, 0.85);
+  --su-form-panel-text-color-with-image: #1f2937;
 
-.su-form-panel {
+
   display: flex;
   max-width: 90vw;
   width: 100%;
@@ -28,29 +26,35 @@
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-.su-form-panel--horizontal { flex-direction: row; align-items: stretch; }
-.su-form-panel--vertical { flex-direction: column; }
-
-.su-form-panel--small { max-width: 380px; }
-.su-form-panel--medium { max-width: 460px; }
-.su-form-panel--large { max-width: 540px; }
-
-.su-form-panel__selector {
+.su-form-panel--horizontal[data-v-58d2590b] {
+  flex-direction: row;
+  align-items: stretch;
+}
+.su-form-panel--vertical[data-v-58d2590b] {
+  flex-direction: column;
+}
+.su-form-panel--small[data-v-58d2590b] {
+  max-width: 380px;
+}
+.su-form-panel--medium[data-v-58d2590b] {
+  max-width: 460px;
+}
+.su-form-panel--large[data-v-58d2590b] {
+  max-width: 540px;
+}
+.su-form-panel__selector[data-v-58d2590b] {
   display: flex;
   flex-shrink: 0;
-  background-color: rgba(255, 255, 255, 0.5); 
+  background-color: rgba(255, 255, 255, 0.5);
 }
-
-.su-form-panel--vertical .su-form-panel__selector {
+.su-form-panel--vertical .su-form-panel__selector[data-v-58d2590b] {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid var(--su-form-panel-border-color);
   padding: 5px 0;
 }
-
-.su-form-panel--horizontal .su-form-panel__selector {
+.su-form-panel--horizontal .su-form-panel__selector[data-v-58d2590b] {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
@@ -58,35 +62,27 @@
   padding: 15px 10px;
   gap: 10px;
 }
-
-.su-form-panel__container {
+.su-form-panel__container[data-v-58d2590b] {
   flex-grow: 1;
   padding: 25px;
-  background-color: var(--su-form-panel-white-color); 
+  background-color: var(--su-form-panel-white-color);
   min-width: 0;
   transition: background-color 0.3s ease;
 }
-
-
-.su-form-panel.is-with-bg .su-form-panel__container {
+.su-form-panel.is-with-bg .su-form-panel__container[data-v-58d2590b] {
   background-color: var(--su-form-panel-bg-color-with-image);
   backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px); 
+  -webkit-backdrop-filter: blur(5px);
 }
-
-
-.su-form-panel.is-with-bg .su-form-panel__title,
-.su-form-panel.is-with-bg .su-form-panel__label {
+.su-form-panel.is-with-bg .su-form-panel__title[data-v-58d2590b],
+.su-form-panel.is-with-bg .su-form-panel__label[data-v-58d2590b] {
   color: var(--su-form-panel-text-color-with-image);
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
 }
-.su-form-panel.is-with-bg .su-form-panel__button--nav {
+.su-form-panel.is-with-bg .su-form-panel__button--nav[data-v-58d2590b] {
   color: var(--su-form-panel-text-color-with-image);
 }
-
-
-
-.su-form-panel__button {
+.su-form-panel__button[data-v-58d2590b] {
   padding: 8px 16px;
   border: none;
   border-radius: 5px;
@@ -96,63 +92,53 @@
   background-color: transparent;
   color: var(--su-form-panel-text-color);
 }
-
-.su-form-panel--vertical .su-form-panel__button--nav {
+.su-form-panel--vertical .su-form-panel__button--nav[data-v-58d2590b] {
   flex-grow: 1;
   text-align: center;
 }
-
-.su-form-panel__button--nav:hover {
+.su-form-panel__button--nav[data-v-58d2590b]:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-
-.su-form-panel__button--nav.is-active {
+.su-form-panel__button--nav.is-active[data-v-58d2590b] {
   background-color: var(--su-form-panel-primary-color);
   color: var(--su-form-panel-white-color);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-.su-form-panel__button--action {
+.su-form-panel__button--action[data-v-58d2590b] {
   width: 100%;
   margin-top: 5px;
 }
-
-.su-form-panel__button--primary {
+.su-form-panel__button--primary[data-v-58d2590b] {
   background-color: var(--su-form-panel-primary-color);
   color: var(--su-form-panel-white-color);
 }
-.su-form-panel__button--primary:hover {
+.su-form-panel__button--primary[data-v-58d2590b]:hover {
   background-color: var(--su-form-panel-primary-hover-color);
 }
-
-.su-form-panel__button--secondary {
+.su-form-panel__button--secondary[data-v-58d2590b] {
   background-color: var(--su-form-panel-secondary-color);
   color: var(--su-form-panel-text-color);
 }
-.su-form-panel__button--secondary:hover {
+.su-form-panel__button--secondary[data-v-58d2590b]:hover {
   background-color: var(--su-form-panel-secondary-hover-color);
 }
-
-.su-form-panel__title {
+.su-form-panel__title[data-v-58d2590b] {
   text-align: center;
   margin-top: 0;
   margin-bottom: 25px;
   color: var(--su-form-panel-text-color);
   font-size: 1.5em;
 }
-
-.su-form-panel__group {
+.su-form-panel__group[data-v-58d2590b] {
   margin-bottom: 18px;
 }
-
-.su-form-panel__label {
+.su-form-panel__label[data-v-58d2590b] {
   display: block;
   margin-bottom: 6px;
   font-weight: 500;
   color: var(--su-form-panel-label-color);
 }
-
-.su-form-panel__input {
+.su-form-panel__input[data-v-58d2590b] {
   box-sizing: border-box;
   width: 100%;
   padding: 10px 12px;
@@ -160,27 +146,25 @@
   border-radius: 5px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.su-form-panel__input:focus {
+.su-form-panel__input[data-v-58d2590b]:focus {
   outline: none;
   border-color: var(--su-form-panel-primary-color);
   box-shadow: 0 0 0 3px var(--su-form-panel-primary-focus-color);
 }
-.su-form-panel__input.is-invalid {
+.su-form-panel__input.is-invalid[data-v-58d2590b] {
   border-color: var(--su-form-panel-error-color);
 }
-.su-form-panel__input.is-invalid:focus {
+.su-form-panel__input.is-invalid[data-v-58d2590b]:focus {
   border-color: var(--su-form-panel-error-color);
   box-shadow: 0 0 0 3px var(--su-form-panel-error-focus-color);
 }
-
-.su-form-panel__error {
+.su-form-panel__error[data-v-58d2590b] {
   color: var(--su-form-panel-error-color);
   font-size: 0.875em;
   margin-top: 6px;
   margin-bottom: 0;
 }
-
-.su-form-panel__actions {
+.su-form-panel__actions[data-v-58d2590b] {
   margin-top: 20px;
   display: flex;
   flex-direction: column;

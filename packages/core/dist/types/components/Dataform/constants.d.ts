@@ -1,2 +1,2 @@
-export declare const EVENT_SUBMIT = "submit";
-export declare const EVENT_CLOSE = "close";
+export declare const DATDAFORM_EVENT_SUBMIT = "submit";
+export declare const DATDAFORM_EVENT_CLOSE = "close";

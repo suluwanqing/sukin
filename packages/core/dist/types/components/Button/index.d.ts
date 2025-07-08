@@ -1,4 +1,4 @@
-export * from './types';
+export * from './type';
 export declare const SuButton: {
     new (...args: any[]): import('vue').CreateComponentPublicInstanceWithMixins<Readonly<import('packages/core').ButtonProps> & Readonly<{
         onClick?: ((event: MouseEvent) => any) | undefined;

@@ -1,2 +1,2 @@
-export const EVENT_SUBMIT = 'submit';
-export const EVENT_CLOSE = 'close';
+export const DATDAFORM_EVENT_SUBMIT = 'submit';
+export const DATDAFORM_EVENT_CLOSE = 'close';

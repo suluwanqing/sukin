@@ -4,6 +4,6 @@ import Button from './Button.vue'
 import ButtonGroup from './ButtonGroup.vue'
 
 import { withInstall } from '@sukin/utils/install'
-export * from './types'
+export * from './type'
 export const SuButton = withInstall(Button)
 export const SuButtonGroup = withInstall(ButtonGroup)

@@ -10,7 +10,29 @@
 <script setup>
 import { ref } from 'vue';
 import { SuSelection } from 'sukin';
-import { groupedOptionsData } from './data';
+
+const groupedOptionsData = [
+    {
+        label: '直辖市',
+        options: [
+            { label: '北京', value: 'beijing' },
+            { label: '上海', value: 'shanghai' },
+            { label: '天津', value: 'tianjin', disabled: true },
+            { label: '重庆', value: 'chongqing' },
+        ]
+    },
+    {
+        label: '省会城市',
+        options: [
+            { label: '广州', value: 'guangzhou' },
+            { label: '深圳', value: 'shenzhen' },
+            { label: '杭州', value: 'hangzhou' },
+            { label: '成都', value: 'chengdu' },
+        ]
+    },
+];
+
+
 
 const value = ref([]);
 </script>

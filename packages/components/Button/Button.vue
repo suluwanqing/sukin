@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { defineOptions, withDefaults, defineSlots, ref, defineExpose, computed, inject } from "vue";
 import { createNamespace } from "@sukin/utils/create";
-import type { ButtonProps, ButtonEmits, ButtonInstance } from "./types";
+import type { ButtonProps, ButtonEmits, ButtonInstance } from "./type";
 import { throttle } from "lodash-es";
 import SuIcon from "../Icon/Icon.vue";
 import { BUTTON_GROUP_CTX_KEY } from "./constants";

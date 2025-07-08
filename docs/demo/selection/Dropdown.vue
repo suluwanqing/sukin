@@ -10,7 +10,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { SuSelection } from 'sukin';
-import { basicOptionsData } from './data';
+
+const basicOptionsData = [
+  { label: '北京', value: 'beijing' },
+  { label: '上海', value: 'shanghai' },
+  { label: '广州', value: 'guangzhou' },
+  { label: '深圳', value: 'shenzhen', disabled: true },
+  { label: '杭州', value: 'hangzhou' },
+];
 
 const value = ref < string | null > (null);
 </script>

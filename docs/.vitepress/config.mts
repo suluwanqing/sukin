@@ -46,9 +46,19 @@ export default defineConfig({
         items: [
           { text: "日程", link: "components/schedule" },
           { text: '可拖拽', link: 'components/dragdrop' },
-          { text: '表单', link: 'components/dataform' },
+          { text: '列表', link: 'components/list' }
         ],
-      }, {
+      },
+      {
+        text: "表单",
+        collapsed: false,
+        items: [
+          { text: '交互表单', link: 'components/dataform' },
+          { text: '信息表单', link: 'components/listform' },
+        ]
+
+      },
+      {
         text: "选项",
         collapsed: false,
         items: [

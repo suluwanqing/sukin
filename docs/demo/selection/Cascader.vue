@@ -11,7 +11,58 @@
 <script setup>
 import { ref } from 'vue';
 import { SuSelection } from 'sukin';
-import { cascaderRegionsData } from './data';
+
+
+const cascaderRegionsData = [
+    {
+        value: 'gd', label: '广东省', children: [
+            {
+                value: 'gz', label: '广州市', children: [
+                    { value: 'th', label: '天河区' },
+                    { value: 'hy', label: '海珠区' },
+                ]
+            },
+            {
+                value: 'sz', label: '深圳市', children: [
+                    { value: 'ft', label: '福田区' },
+                    { value: 'lh', label: '罗湖区' },
+                ]
+            },
+        ]
+    },
+    {
+        value: 'zj', label: '浙江省', children: [
+            {
+                value: 'hz', label: '杭州市', children: [
+                    { value: 'xh', label: '西湖区' },
+                    { value: 'xd', label: '萧山区' },
+                ]
+            },
+            {
+                value: 'nb', label: '宁波市', children: [
+                    { value: 'jy', label: '江北区' },
+                    { value: 'yh', label: '鄞州区' },
+                ]
+            },
+        ]
+    },
+    {
+        value: 'js', label: '江苏省', children: [
+            {
+                value: 'nj', label: '南京市', children: [
+                    { value: 'qh', label: '秦淮区' },
+                    { value: 'jl', label: '建邺区' },
+                ]
+            },
+            {
+                value: 'sz', label: '苏州市', children: [
+                    { value: 'gc', label: '姑苏区' },
+                    { value: 'ws', label: '吴中区' },
+                ]
+            },
+        ]
+    },
+];
 const value = ref(null);
 </script>
 

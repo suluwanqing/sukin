@@ -102,7 +102,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const Button = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-72b5c5c2"]]);
+const SuButton$1 = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-a73296fe"]]);
 const _hoisted_1 = { class: "su-button-group" };
 const _sfc_main = /* @__PURE__ */ defineComponent({
   ...{
@@ -131,10 +131,11 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const ButtonGroup = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-e89ce1cf"]]);
-const SuButton = withInstall(Button);
+const ButtonGroup = /* @__PURE__ */ _export_sfc(_sfc_main, [["__scopeId", "data-v-22d9c5b0"]]);
+const SuButton = withInstall(SuButton$1);
 const SuButtonGroup = withInstall(ButtonGroup);
 export {
-  SuButton as S,
-  SuButtonGroup as a
+  SuButton$1 as S,
+  SuButton as a,
+  SuButtonGroup as b
 };

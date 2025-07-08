@@ -1,0 +1,296 @@
+:root {
+    --primary-color: #2d8cf0;
+    --light-primary: #5cadff;
+    --dark-primary: #2b85e4;
+    --info-color: #2db7f5;
+    --success-color: #19be6b;
+    --warning-color: #ff9900;
+    --error-color: #ed4014;
+    --title-color: #17233d;
+    --content-color: #515a6e;
+    --sub-color: #808695;
+    --disabled-color: #c5c8ce;
+    --border-color: #dcdee2;
+    --divider-color: #e8eaec;
+    --bg-color: #f8f8f9;
+    --hover-bg: #f5f5f5;
+}
+
+.su-list-form {
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
+    max-width: 100%;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+}
+
+.su-list-form__title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--title-color);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--divider-color);
+}
+
+.su-list-form__fields {
+    margin-bottom: 24px;
+}
+
+.su-list-form__row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 18px;
+}
+
+.su-list-form__field {
+    flex: 1;
+    min-width: 0;
+}
+
+.su-list-form__label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--content-color);
+    line-height: 1.5;
+}
+
+.su-list-form__input-wrapper {
+    position: relative;
+}
+
+/* 输入框基础样式 */
+.su-list-form__input-wrapper input,
+.su-list-form__input-wrapper textarea,
+.su-list-form__input-wrapper select {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: var(--content-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: #fff;
+    transition: all 0.2s ease-in-out;
+    line-height: 1.5;
+}
+
+.su-list-form__input-wrapper input:focus,
+.su-list-form__input-wrapper textarea:focus,
+.su-list-form__input-wrapper select:focus {
+    outline: 0;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(45, 140, 240, 0.2);
+}
+
+.su-list-form__input-wrapper input.is-error,
+.su-list-form__input-wrapper textarea.is-error,
+.su-list-form__input-wrapper select.is-error {
+    border-color: var(--error-color);
+}
+
+.su-list-form__input-wrapper input.is-error:focus,
+.su-list-form__input-wrapper textarea.is-error:focus,
+.su-list-form__input-wrapper select.is-error:focus {
+    box-shadow: 0 0 0 2px rgba(237, 64, 20, 0.2);
+}
+
+.su-list-form__input-wrapper input[disabled],
+.su-list-form__input-wrapper textarea[disabled],
+.su-list-form__input-wrapper select[disabled] {
+    background-color: var(--bg-color);
+    color: var(--disabled-color);
+    cursor: not-allowed;
+}
+
+/* 下拉选择框样式 */
+.su-list-form__select-wrapper {
+    position: relative;
+}
+
+.su-list-form__select-wrapper select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2371778c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+    padding-right: 32px;
+}
+
+/* 文件上传样式 */
+.su-list-form__upload-wrapper {
+    position: relative;
+}
+
+.su-list-form__file-input {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+.su-list-form__upload-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: var(--content-color);
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.su-list-form__upload-label:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.su-list-form__upload-label.is-error {
+    border-color: var(--error-color);
+}
+
+.su-list-form__file-name {
+    margin-left: 8px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.su-list-form__clear-file-btn {
+    margin-left: 8px;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: none;
+    color: var(--sub-color);
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.su-list-form__clear-file-btn:hover {
+    color: var(--error-color);
+}
+
+/* 预览区域 */
+.su-list-form__preview-container {
+    margin-top: 12px;
+}
+
+.su-list-form__preview-image {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.su-list-form__non-image-preview {
+    padding: 8px 12px;
+    background-color: var(--bg-color);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--content-color);
+}
+
+/* 错误提示 */
+.su-list-form__error-message {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--error-color);
+    line-height: 1.5;
+}
+
+/* 操作按钮区域 */
+.su-list-form__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--divider-color);
+}
+
+.su-list-form__action-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    line-height: 1.5;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.su-list-form__action-btn--primary {
+    color: #fff;
+    background-color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.su-list-form__action-btn--primary:hover {
+    background-color: var(--light-primary);
+    border-color: var(--light-primary);
+}
+
+.su-list-form__action-btn--primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.su-list-form__action-btn--secondary {
+    color: var(--content-color);
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+}
+
+.su-list-form__action-btn--secondary:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* 加载动画 */
+.su-list-form__loading-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+.required-asterisk {
+    color: var(--error-color);
+    margin-left: 4px;
+}
+
+/* 动画效果 */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .su-list-form__row {
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .su-list-form__actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .su-list-form__action-btn {
+        width: 100%;
+    }
+}

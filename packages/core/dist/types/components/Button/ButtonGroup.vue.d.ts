@@ -1,4 +1,4 @@
-import { ButtonGroupProps } from './types';
+import { ButtonGroupProps } from './type';
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {

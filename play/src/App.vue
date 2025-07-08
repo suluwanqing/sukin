@@ -1,226 +1,275 @@
+<!-- 此示例代码已完全适配最终版的 SuList 组件，无需修改 -->
 <template>
-    <div class="app-container">
-        <h2>模式：Peek (大尺寸卡片, 自动播放, 鼠标悬停暂停, 带指示器)</h2>
-        <SuIcard :items="cardData" mode="peek" v-model:activeIndex="currentPeekIndex" size="large" :loop="true"
-            :autoplay="true" :autoplayInterval="4000" :pauseOnHover="true" :showIndicators="true">
-            <template #default="{ item, isActive }">
-                <div class="custom-card" :class="{ 'is-active-card': isActive }">
-                    <img :src="item.imageUrl" :alt="item.title">
-                    <h3>{{ item.title }}</h3>
-                    <p v-if="isActive">{{ item.description }}</p>
+    <div class="demo-container">
+        <h1 class="demo-title">SuList Component Demo</h1>
+
+        <!-- SECTION A: INTERACTIVE CONTROLS -->
+        <div class="control-panel">
+            <h3 class="panel-title">Component Controls</h3>
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label>Pagination Mode:</label>
+                    <button @click="togglePaginationMode" class="control-button">
+                        Switch to {{ paginationMode === 'external' ? 'Internal' : 'External' }}
+                    </button>
                 </div>
-            </template>
-        </SuIcard>
-        <p class="status-text">当前激活卡片 (大尺寸): {{ cardData[currentPeekIndex].title }}</p>
-
-        <hr>
-
-        <h2>模式：Carousel (小尺寸卡片, 自动播放, 非循环, 尾部跳转按钮)</h2>
-        <SuIcard :items="cardData" mode="carousel" size="small" :cardWidth="160" :cardHeight="220" :loop="false"
-            :autoplay="true" :autoplayInterval="3000" :pauseOnHover="true" v-model:activeIndex="currentCarouselIndex"
-            :showIndicators="false" :showCarouselGoToFirst="true" :showNavigationButtons="false">
-            <template #default="{ item }">
-                <div class="carousel-card">
-                    <img :src="item.imageUrl" :alt="item.title">
-                    <h4>{{ item.title }}</h4>
+                <div class="control-group">
+                    <label for="show-filters">Show Filters:</label>
+                    <input type="checkbox" id="show-filters" v-model="showFilters" />
                 </div>
-            </template>
-        </SuIcard>
-        <p class="status-text">当前激活卡片 (小尺寸): {{ cardData[currentCarouselIndex].title }}</p>
-
-        <hr>
-
-        <h2>模式：Stack (点击切换抽出/收回)</h2>
-        <SuIcard :items="cardData.slice(0, 5)" mode="stack" size="medium" :stackExtractedOffset="45" :stackOffset="85"
-            :stackRotate="8" v-model:activeIndex="currentStackToggleIndex" :autoplay="false" :showIndicators="false"
-            :showCarouselGoToFirst="false" :showNavigationButtons="false" stackExtraction="click">
-            <template #default="{ item, isActive }">
-                <div class="stack-card" :class="{ 'is-active-stack-card': isActive }">
-                    <p>{{ item.title }}</p>
+                <div class="control-group">
+                    <label for="show-actions">Show Actions Column:</label>
+                    <input type="checkbox" id="show-actions" v-model="showActionsColumn" />
                 </div>
-            </template>
-        </SuIcard>
-        <p class="status-text">当前激活栈式卡片 (点击切换抽出/收回): {{ cardData[currentStackToggleIndex].title }}</p>
-
-        <hr>
-
-        <h2>模式：Stack (鼠标悬浮抽出)</h2>
-        <SuIcard :items="cardData.slice(0, 5)" mode="stack" size="medium" :stackExtractedOffset="60" :stackOffset="60"
-            :stackRotate="8" v-model:activeIndex="currentStackHoverIndex" :autoplay="false" :showIndicators="false"
-            :showCarouselGoToFirst="false" :showNavigationButtons="false" stackExtraction="hover">
-            <template #default="{ item, isActive }">
-                <div class="stack-card" :class="{ 'is-active-stack-card': isActive }">
-                    <p>{{ item.title }}</p>
+                <div class="control-group">
+                    <label for="show-elevator">Show Page Jumper:</label>
+                    <input type="checkbox" id="show-elevator" v-model="showElevator" />
                 </div>
-            </template>
-        </SuIcard>
-        <p class="status-text">当前激活栈式卡片 (鼠标悬浮抽出): {{ cardData[currentStackHoverIndex].title }}</p>
+            </div>
+        </div>
 
-        <hr>
-
-        <h2>模式：Stack (无抽出)</h2>
-        <SuIcard :items="cardData.slice(0, 5)" mode="stack" size="medium" :stackOffset="60" :stackRotate="8"
-            v-model:activeIndex="currentStackNoneIndex" :autoplay="false" :showIndicators="false"
-            :showCarouselGoToFirst="false" :showNavigationButtons="false" stackExtraction="none">
-            <template #default="{ item, isActive }">
-                <div class="stack-card" :class="{ 'is-active-stack-card': isActive }">
-                    <p>{{ item.title }}</p>
+        <!-- SECTION B: STATE DISPLAY -->
+        <div class="state-display">
+            <h3>Parent Component State</h3>
+            <div class="state-grid">
+                <div><strong>Active Mode:</strong> <span class="state-value mode">{{ paginationMode }} pagination</span>
                 </div>
-            </template>
-        </SuIcard>
-        <p class="status-text">当前激活栈式卡片 (无抽出): {{ cardData[currentStackNoneIndex].title }}</p>
+                <div><strong>Current Page:</strong> <span class="state-value">{{ currentPage }}</span></div>
+                <div><strong>Search Params:</strong> <span class="state-value code">{{ JSON.stringify(searchParams)
+                }}</span></div>
+                <div><strong>Selected IDs:</strong> <span class="state-value code">{{ selectedIds.join(', ') || 'None'
+                }}</span></div>
+            </div>
+        </div>
+
+        <!-- SECTION C: THE SULIST COMPONENT -->
+        <SuList :pagination-type="paginationMode" :data="dataForInternalMode" :page-data="pageDataForExternalMode"
+            :total="totalForExternalMode" v-model:currentPage="currentPage" :page-size="pageSize" :column="tableColumns"
+            :mynavs="listNavs" :na-v-bt="navButtons" :nav-ic="iconButtons" :select-bt="searchButtons" :selectable="true"
+            :show-filters="showFilters" :show-nav-buttons="true" :show-nav-icons="true"
+            :show-actions-column="showActionsColumn" :show-elevator="showElevator" row-key="id" mode="full"
+            @selection-change="handleSelectionChange" @search="handleSearch" @reset="handleReset"
+            @add-user="handleAddUser" @export-data="handleExport" @refresh-data="handleRefresh" @edit="handleEdit"
+            @delete="handleDelete" />
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { SuIcard } from "sukin"
+import { ref, reactive, computed } from 'vue';
+// 假设 SuList 从您的组件库中正确导入
+import { SuList } from 'sukin';
 
-const currentPeekIndex = ref(0);
-const currentCarouselIndex = ref(0);
-const currentStackToggleIndex = ref(2);
-const currentStackHoverIndex = ref(0);
-const currentStackNoneIndex = ref(4);
-
-const cardData = ref([
-    { id: 1, title: '壮丽山景', imageUrl: 'https://picsum.photos/id/10/280/400', description: '雄伟的山峰直插云霄。' },
-    { id: 2, title: '魔法森林', imageUrl: 'https://picsum.photos/id/11/280/400', description: '隐藏的小径和古老的树木。' },
-    { id: 3, title: '浩瀚海洋', imageUrl: 'https://picsum.photos/id/12/280/400', description: '无尽的蓝色，汹涌的波浪。' },
-    { id: 4, title: '都市霓虹', imageUrl: 'https://picsum.photos/id/13/280/400', description: '灯火璀璨，繁忙的城市。' },
-    { id: 5, title: '寂静沙漠', imageUrl: 'https://picsum.photos/id/14/280/400', description: '阳光下的寂静沙丘。' },
-    { id: 6, title: '神秘湖泊', imageUrl: 'https://picsum.photos/id/15/280/400', description: '平静的湖水倒映着浮云。' },
+// --- 1. CORE STATE ---
+const masterData = ref([
+    { id: 1, name: 'John Brown', email: 'john.brown@example.com', status: 'active', role: 'Admin' },
+    { id: 2, name: 'Jim Green', email: 'jim.green@example.com', status: 'active', role: 'User' },
+    { id: 3, name: 'Jane Doe', email: 'jane.doe@example.com', status: 'inactive', role: 'User' },
+    { id: 4, name: 'Joe Black', email: 'joe.black@example.com', status: 'active', role: 'Developer' },
+    { id: 5, name: 'Susan White', email: 'susan.white@example.com', status: 'pending', role: 'User' },
+    { id: 6, name: 'Peter Jones', email: 'peter.jones@example.com', status: 'active', role: 'Developer' },
+    { id: 7, name: 'Linda Smith', email: 'linda.smith@example.com', status: 'inactive', role: 'Guest' },
+    { id: 8, name: 'Michael Johnson', email: 'michael.j@example.com', status: 'active', role: 'Admin' },
+    { id: 9, name: 'Chris Lee', email: 'chris.lee@example.com', status: 'pending', role: 'User' },
+    { id: 10, name: 'Patricia Garcia', email: 'pat.g@example.com', status: 'active', role: 'User' },
+    { id: 11, name: 'David Miller', email: 'david.m@example.com', status: 'active', role: 'User' },
+    { id: 12, name: 'Sarah Wilson', email: 'sarah.w@example.com', status: 'inactive', role: 'Guest' },
 ]);
+
+const paginationMode = ref('external');
+const showFilters = ref(true);
+const showActionsColumn = ref(true);
+const showElevator = ref(true);
+
+const currentPage = ref(1);
+const pageSize = ref(4);
+const searchParams = reactive({ status: 'all', email: '' });
+const selectedIds = ref([]);
+
+// --- 2. CONFIGURATIONS FOR SuList PROPS ---
+const tableColumns = [
+    { label: 'ID', value: 'id' }, { label: 'Name', value: 'name' },
+    { label: 'Email Address', value: 'email' }, { label: 'Status', value: 'status' },
+];
+const listNavs = [
+    {
+        name: 'Status', type: 'selection', column: 'status', options: [
+            { label: 'All', value: 'all' }, { label: 'Active', value: 'active' },
+            { label: 'Inactive', value: 'inactive' }, { label: 'Pending', value: 'pending' },
+        ]
+    },
+    { name: 'Email', type: 'input', column: 'email', placeholder: 'Search by email...', },
+];
+const searchButtons = [{ label: 'Search', emit: 'search' }, { label: 'Reset', type: 'default', emit: 'reset' }];
+const navButtons = [{ label: 'Add User', type: 'primary', emit: 'add-user' }];
+const iconButtons = [{ label: 'Refresh', icon: 'arrows-rotate', emit: 'refresh-data' }];
+const rowActions = [
+    { label: 'Edit', type: 'primary', emit: 'edit' },
+    { label: 'Delete', type: 'danger', emit: 'delete', hidden: (row) => row.role === 'Admin' },
+];
+
+// --- 3. COMPUTED PROPERTIES (DATA LOGIC) ---
+const filteredData = computed(() => {
+    return masterData.value.filter(item => {
+        const statusMatch = searchParams.status === 'all' || item.status === searchParams.status;
+        const emailMatch = item.email.toLowerCase().includes(searchParams.email.toLowerCase());
+        return statusMatch && emailMatch;
+    });
+});
+
+const dataForInternalMode = computed(() => {
+    return paginationMode.value === 'internal' ? filteredData.value : [];
+});
+
+const totalForExternalMode = computed(() => {
+    return paginationMode.value === 'external' ? filteredData.value.length : 0;
+});
+const pageDataForExternalMode = computed(() => {
+    if (paginationMode.value !== 'external') return { data: [], actions: [] };
+
+    const start = (currentPage.value - 1) * pageSize.value;
+    const end = start + pageSize.value;
+    const dataForPage = filteredData.value.slice(start, end);
+
+    return { data: dataForPage, actions: rowActions };
+});
+
+// --- 4. EVENT HANDLERS & METHODS ---
+const togglePaginationMode = () => {
+    paginationMode.value = paginationMode.value === 'external' ? 'internal' : 'external';
+    currentPage.value = 1;
+};
+
+const handleSearch = (filters) => {
+    console.log('Search triggered with:', filters);
+    searchParams.status = filters.status;
+    searchParams.email = filters.email;
+    currentPage.value = 1;
+};
+
+const handleReset = () => {
+    console.log('Reset triggered');
+    searchParams.status = 'all';
+    searchParams.email = '';
+    currentPage.value = 1;
+};
+
+const handleSelectionChange = (keys) => {
+    console.log('Selection changed:', keys);
+    selectedIds.value = keys;
+};
+
+const handleAddUser = () => { alert('Action: Add a new user.'); };
+const handleRefresh = () => { alert('Action: Refreshing data!'); };
+const handleExport = () => { alert('Action: Exporting data!'); };
+const handleEdit = (row) => { alert(`Action: Edit user with ID ${row.id}`); };
+const handleDelete = (row) => {
+    if (confirm(`Are you sure you want to delete ${row.name}?`)) {
+        masterData.value = masterData.value.filter(item => item.id !== row.id);
+        alert('User deleted.');
+    }
+};
 </script>
 
-<style>
-body {
-    background-color: #f4f7f9;
-    margin: 0;
-    padding: 0;
+<style scoped>
+.demo-container {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 24px;
+    background-color: #f7f8fa;
+    border-radius: 12px;
 }
 
-.app-container {
-    max-width: 900px;
-    margin: 40px auto;
+.demo-title {
+    margin-bottom: 24px;
+    text-align: center;
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.control-panel,
+.state-display {
+    background-color: #fff;
+    border: 1px solid #eef0f3;
+    border-radius: 8px;
     padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.panel-title,
+.state-display h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
     color: #333;
+    border-bottom: 1px solid #eef0f3;
+    padding-bottom: 12px;
+    font-size: 18px;
+    font-weight: 500;
 }
 
-h2 {
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 30px;
-    color: #4a4a4a;
+.controls-grid,
+.state-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px 24px;
 }
 
-hr {
-    margin: 80px 0;
-    border: 0;
-    border-top: 1px solid #e0e0e0;
-}
-
-.status-text {
-    text-align: center;
-    margin-top: 50px;
-    font-weight: bold;
-    color: #666;
-    font-size: 1.1em;
-}
-
-.custom-card {
-    width: 100%;
-    height: 100%;
-    color: white;
-    position: relative;
+.control-group {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
     align-items: center;
-    overflow: hidden;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    padding-bottom: 25px;
+    gap: 10px;
 }
 
-.custom-card img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    filter: brightness(0.6);
-    transition: transform 0.5s ease;
-}
-
-.custom-card h3 {
-    margin: 0 15px 5px 15px;
-    font-size: 1.6em;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
-
-.custom-card p {
-    margin: 0 15px 0 15px;
-    font-size: 0.9em;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-}
-
-.custom-card.is-active-card h3,
-.custom-card.is-active-card p {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.custom-card.is-active-card img {
-    transform: scale(1.05);
-}
-
-.carousel-card {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.carousel-card img {
-    width: 100%;
-    height: 70%;
-    object-fit: cover;
-    border-bottom: 1px solid #eee;
-}
-
-.carousel-card h4 {
-    margin: 10px 0;
-    font-size: 1.1em;
+.control-group label {
+    font-weight: 500;
     color: #555;
 }
 
-.stack-card {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 1.5em;
-    color: #888;
-    background-color: transparent;
-    /* Your example has transparent, if you want solid, change here */
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
-    transition: all 0.5s ease;
+.control-button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #dcdfe6;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
 }
 
-.stack-card.is-active-stack-card {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    border: 1px solid #ddd;
+.control-button:hover {
+    border-color: #409eff;
+    color: #409eff;
+}
+
+.state-grid>div {
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 4px 0;
+}
+
+.state-value {
+    font-weight: 500;
+    color: #333;
+    background-color: #f4f4f5;
+    padding: 3px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+}
+
+.state-value.mode {
+    color: #fff;
+    background-color: #409eff;
+}
+
+.state-value.code {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
 </style>

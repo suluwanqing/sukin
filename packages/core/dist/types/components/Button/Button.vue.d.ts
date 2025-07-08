@@ -1,4 +1,4 @@
-import { ButtonProps } from './types';
+import { ButtonProps } from './type';
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: Readonly<Record<string, any>> & Record<string, any>;

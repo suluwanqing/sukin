@@ -4,7 +4,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import type { ButtonGroupProps } from "./types";
+import type { ButtonGroupProps } from "./type";
 import { provide, reactive, toRef } from "vue";
 import { BUTTON_GROUP_CTX_KEY } from "./constants";
 
