@@ -44,6 +44,7 @@
     "@sukin/hooks": "workspace:*",
     "@sukin/theme": "workspace:*",
     "@sukin/utils": "workspace:*",
+    "@sukin/docs": "workspace:*",
     "lodash-es": "^4.17.21",
     "sukin": "workspace:*",
     "vue": "^3.5.17"
