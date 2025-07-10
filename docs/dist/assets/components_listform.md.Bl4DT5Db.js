@@ -1,0 +1,1 @@
+import{_ as t,c as e,o}from"./chunks/framework.BvF4bhuq.js";const l=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"components/listform.md","filePath":"components/listform.md"}'),s={name:"components/listform.md"};function r(n,a,c,m,i,p){return o(),e("div")}const _=t(s,[["render",r]]);export{l as __pageData,_ as default};

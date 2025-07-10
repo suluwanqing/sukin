@@ -1,13 +1,12 @@
 import { defineComponent, computed, createElementBlock, openBlock, normalizeClass, unref, createTextVNode, createCommentVNode, toDisplayString, withModifiers, ref, watch, createElementVNode, Fragment, renderList, createBlock } from "vue";
 import { c as createNamespace, _ as _export_sfc, p as popItemDeep, g as getDeepValue, a as getItemDeep, w as withInstall } from "./utils.js";
-const ITEM_REMOVE_EVENT = "remove";
-const DRAG_DROP_CHANGE_EVENT = "change";
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "Item",
   props: {
     item: {},
     removable: { type: Boolean, default: false }
   },
+  emits: ["remove"],
   setup(__props, { emit: __emit }) {
     const props = __props;
     const emit = __emit;
@@ -17,7 +16,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
       return ((_a = props.item) == null ? void 0 : _a.name) || ((_b = props.item) == null ? void 0 : _b.label) || ((_c = props.item) == null ? void 0 : _c.UNIQUEKEYDATA) || "Unnamed Item";
     });
     const handleRemove = () => {
-      emit(ITEM_REMOVE_EVENT, props.item);
+      emit("remove", props.item);
     };
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", {
@@ -38,7 +37,7 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const ItemComponent = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-0cd40df7"]]);
+const ItemComponent = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-82b9c2e7"]]);
 function useDragDrop(sourceItems, placedItems, props, emit) {
   const keyPath = props.onlykey || "id";
   const onDragStart = (event, item) => {
@@ -64,7 +63,7 @@ function useDragDrop(sourceItems, placedItems, props, emit) {
       if (!isAlreadyPlaced) {
         sourceItems.value = popItemDeep(sourceItems.value, itemToDrop, keyPath);
         placedItems.value.push(itemToDrop);
-        emit(DRAG_DROP_CHANGE_EVENT, {
+        emit("change", {
           source: [...sourceItems.value],
           placed: [...placedItems.value]
         });
@@ -78,7 +77,7 @@ function useDragDrop(sourceItems, placedItems, props, emit) {
     if (!isAlreadyInSource) {
       sourceItems.value.push(itemToRemove);
     }
-    emit(DRAG_DROP_CHANGE_EVENT, {
+    emit("change", {
       source: [...sourceItems.value],
       placed: [...placedItems.value]
     });
@@ -99,6 +98,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     onlykey: { default: "id" },
     showCount: { type: Boolean, default: true }
   },
+  emits: ["change"],
   setup(__props, { emit: __emit }) {
     const bem = createNamespace("drag-drop");
     const props = __props;

@@ -1,6 +1,4 @@
 import type { FormPanelProps, FormPanelEmits, FormPanelState, FormSection, FormStep, FormField } from './type';
-import { DATDAFORM_EVENT_SUBMIT } from './constants';
-
 const internalValidators: Record<string, (options: any) => (value: any) => true | string> = {
     email: (options: { message?: string }) => (value: string) => {
         const msg = options.message || '请输入有效的电子邮件地址';
@@ -97,7 +95,7 @@ export const handleSwitchForm = (formType: string, props: FormPanelProps, state:
 
 export const handleSubmit = (section: FormSection, state: FormPanelState, emit: FormPanelEmits) => {
     if (!validateFields(section.fields || [], state)) return;
-    emit(DATDAFORM_EVENT_SUBMIT, section.title, { ...state.formData });
+    emit('submit', section.title, { ...state.formData });
 };
 
 export const handleNextStep = async (stepInfo: FormStep, section: FormSection, state: FormPanelState, emit: FormPanelEmits) => {
@@ -118,7 +116,7 @@ export const handleNextStep = async (stepInfo: FormStep, section: FormSection, s
 
     const isLastStep = section.step_model && state.currentStep.value === section.step_model.All_Steps;
     if (isLastStep) {
-        emit(DATDAFORM_EVENT_SUBMIT, section.title, { ...state.formData });
+        emit('submit', section.title, { ...state.formData });
     } else {
         state.currentStep.value++;
     }

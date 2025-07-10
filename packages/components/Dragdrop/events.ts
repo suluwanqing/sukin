@@ -2,7 +2,7 @@ import type { Ref } from 'vue';
 
 import { getItemDeep, popItemDeep, getDeepValue } from '@sukin/utils';
 import type { DragDropItem, DragDropProps } from './type';
-import { DRAG_DROP_CHANGE_EVENT } from './constants';
+
 
 /**
  * 一个用于处理拖拽逻辑的组合式函数 (Composition Function / Hook)。
@@ -16,7 +16,7 @@ export function useDragDrop(
     sourceItems: Ref<DragDropItem[]>,
     placedItems: Ref<DragDropItem[]>,
     props: Readonly<Partial<DragDropProps>>,
-    emit: (event: typeof DRAG_DROP_CHANGE_EVENT, payload: { source: DragDropItem[]; placed: DragDropItem[] }) => void
+    emit: (event: 'change', payload: { source: DragDropItem[]; placed: DragDropItem[] }) => void
 ) {
     let draggedItem: DragDropItem | null = null;
     // 推荐的 onlykey 格式是 'id' 或 'data.uuid'，不带前导点
@@ -55,7 +55,7 @@ export function useDragDrop(
                 sourceItems.value = popItemDeep(sourceItems.value, itemToDrop, keyPath);
                 placedItems.value.push(itemToDrop);
 
-                emit(DRAG_DROP_CHANGE_EVENT, {
+                emit('change', {
                     source: [...sourceItems.value],
                     placed: [...placedItems.value],
                 });
@@ -75,7 +75,7 @@ export function useDragDrop(
             sourceItems.value.push(itemToRemove);
         }
 
-        emit(DRAG_DROP_CHANGE_EVENT, {
+        emit('change', {
             source: [...sourceItems.value],
             placed: [...placedItems.value],
         });

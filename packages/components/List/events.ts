@@ -1,5 +1,4 @@
 import type { SuListProps, SuListState, Action, ButtonConfig, NavIcon, SuListEmits } from './type';
-import { SELECTION_CHANGE } from './constants';
 type EmitFn = (event: string, ...args: any[]) => void;
 
 export function handleToggleRow(emit: SuListEmits, props: SuListProps, state: SuListState, row: Record<string, any>) {
@@ -12,7 +11,7 @@ export function handleToggleRow(emit: SuListEmits, props: SuListProps, state: Su
     } else {
         state.selectedRowKeys.add(key);
     }
-    (emit as EmitFn)(SELECTION_CHANGE, Array.from(state.selectedRowKeys));
+    (emit as EmitFn)('selection-change', Array.from(state.selectedRowKeys));
 }
 
 export function handleToggleAllOnPage(emit: SuListEmits, props: SuListProps, state: SuListState, isAllSelected: boolean, processedData: Record<string, any>[]) {
@@ -30,7 +29,7 @@ export function handleToggleAllOnPage(emit: SuListEmits, props: SuListProps, sta
         }
     });
 
-    (emit as EmitFn)(SELECTION_CHANGE, Array.from(state.selectedRowKeys));
+    (emit as EmitFn)('selection-change', Array.from(state.selectedRowKeys));
 }
 
 export function handleToggleColumn(state: SuListState, colValue: string) {

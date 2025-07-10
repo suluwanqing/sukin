@@ -1,6 +1,6 @@
 import { ref, computed, watch, toRef, type Ref } from 'vue';
 import type { SuSelectionProps, SelectionEmits, OptionDataItem, GroupDataItem, CascaderOption } from './type';
-import { SELECTION_UPDATE_MODEL_EVENT, SELECTION_CHANGE_EVENT } from './constant';
+
 
 // 封装 SuSelection 组件的核心逻辑
 export function useSelection(
@@ -155,8 +155,8 @@ export function useSelection(
                 // 选中叶子节点，确定最终路径并关闭
                 internalSelectedValues.value = currentPath;
                 internalExpandedPath.value = currentPath;
-                emit(SELECTION_UPDATE_MODEL_EVENT, internalSelectedValues.value);
-                emit(SELECTION_CHANGE_EVENT, internalSelectedValues.value);
+                emit('update:modelValue', internalSelectedValues.value);
+                emit('change', internalSelectedValues.value);
                 onSelectCallback?.(); // 通常用于关闭 dropdown
             } else {
                 // 选中非叶子节点，更新展开路径
@@ -181,8 +181,8 @@ export function useSelection(
 
             internalSelectedValues.value = newSelectedValues;
             const emittedValue = multiple.value ? newSelectedValues : (newSelectedValues[0] || null);
-            emit(SELECTION_UPDATE_MODEL_EVENT, emittedValue);
-            emit(SELECTION_CHANGE_EVENT, emittedValue);
+            emit('update:modelValue', emittedValue);
+            emit('change', emittedValue);
             onSelectCallback?.();
         }
     };
@@ -192,8 +192,8 @@ export function useSelection(
         if (props.disabled || mode.value !== 'dropdown' || !multiple.value) return;
         const newSelectedValues = internalSelectedValues.value.filter(val => val !== itemToRemove.value);
         internalSelectedValues.value = newSelectedValues;
-        emit(SELECTION_UPDATE_MODEL_EVENT, newSelectedValues);
-        emit(SELECTION_CHANGE_EVENT, newSelectedValues);
+        emit('update:modelValue', newSelectedValues);
+        emit('change', newSelectedValues);
     };
 
     // 清除所有选中项 (适用于 dropdown/cascader 模式)
@@ -211,8 +211,8 @@ export function useSelection(
             emittedValue = null;
         }
 
-        emit(SELECTION_UPDATE_MODEL_EVENT, emittedValue);
-        emit(SELECTION_CHANGE_EVENT, emittedValue);
+        emit('update:modelValue', emittedValue);
+        emit('change', emittedValue);
     };
 
     // 计算并返回显示在触发器中的文本 (单选/多选模式的 placeholder 或选中文本)

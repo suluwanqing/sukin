@@ -1,4 +1,3 @@
-import { DRAG_DROP_CHANGE_EVENT } from './constants';
 
 export interface DragDropItem {
     id: string | number;
@@ -21,5 +20,5 @@ export interface ItemProps {
 
 // 只处理直接在主组件的使用,其他采用变量+typeof格式
 export interface DragDropEmits {
-    (e: typeof DRAG_DROP_CHANGE_EVENT, payload: { source: DragDropItem[]; placed: DragDropItem[] }): void
+    (e: 'change', payload: { source: DragDropItem[]; placed: DragDropItem[] }): void
 }

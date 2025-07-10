@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { mount, config } from '@vue/test-utils';
 import SuDragDrop from './Dragdrop.vue'; // 调整为你的组件路径
 import type { DragDropItem } from './type'; // 调整为你的类型路径
-import { DRAG_DROP_CHANGE_EVENT } from "./constants"
 // 定义事件载荷的类型，方便复用
 type DragDropEventPayload = { source: DragDropItem[]; placed: DragDropItem[] };
 
@@ -111,7 +110,7 @@ describe('SuDragDrop.vue', () => {
 
         // 作用：测试拖放后的事件
         await dropzone.trigger('drop', { dataTransfer });
-        const emitted = wrapper.emitted(DRAG_DROP_CHANGE_EVENT);
+        const emitted = wrapper.emitted('change');
 
         // 作用：断言事件存在，并使用 'as' 将 'unknown' 类型的载荷转换为已知类型
         expect(emitted).toBeDefined();
@@ -145,7 +144,7 @@ describe('SuDragDrop.vue', () => {
         await dropzone.trigger('drop', { dataTransfer });
 
         // 作用：验证事件载荷
-        const emitted = wrapper.emitted(DRAG_DROP_CHANGE_EVENT);
+        const emitted = wrapper.emitted('change');
         expect(emitted).toBeDefined();
         const payload = emitted![0][0] as DragDropEventPayload;
         expect(payload.placed[0].data.uuid).toBe('nested-1');

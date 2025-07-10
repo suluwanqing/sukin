@@ -22,6 +22,7 @@ const components = [
   SuIcard,
   SuListform,
   SuList
+  // SuLatern
 ];
 const installer = makeInstaller(components);
 library.add(fas);

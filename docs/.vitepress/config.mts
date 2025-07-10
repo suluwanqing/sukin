@@ -10,6 +10,7 @@ export default defineConfig({
   description: "vue3+ts",
   appearance: false, // 关闭 darkMode @todo 深色模式完成后打开
   base: "/sukin/",
+  outDir: '../dist', // 打包输出目录
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

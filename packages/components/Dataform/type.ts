@@ -1,5 +1,4 @@
 import type { Ref } from 'vue';
-import { DATDAFORM_EVENT_CLOSE, DATDAFORM_EVENT_SUBMIT } from './constants';
 export type ValidationRule = string | { name: string;[key: string]: any };
 
 export interface FormField {
@@ -34,8 +33,8 @@ export interface FormPanelProps {
 }
 
 export interface FormPanelEmits {
-    (e: typeof DATDAFORM_EVENT_SUBMIT, formType: string, data: Record<string, any>): void;
-    (e: typeof DATDAFORM_EVENT_CLOSE): void;
+    (e: 'submit', formType: string, data: Record<string, any>): void;
+    (e:'close'): void;
 }
 
 export interface FormPanelState {

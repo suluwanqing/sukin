@@ -1,1 +1,0 @@
-export const EXPORT_EVENT = 'export-data';

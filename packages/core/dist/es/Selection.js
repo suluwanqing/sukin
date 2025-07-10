@@ -1,8 +1,6 @@
 import { toRef, ref, watch, computed, defineComponent, createElementBlock, openBlock, withKeys, normalizeClass, withModifiers, unref, toDisplayString, onMounted, onUnmounted, createCommentVNode, createVNode, Fragment, renderList, createElementVNode, createTextVNode, Transition, withCtx, createBlock, withDirectives, vShow } from "vue";
 import { c as createNamespace, _ as _export_sfc, w as withInstall } from "./utils.js";
 import { S as SuIcon } from "./Icon.js";
-const SELECTION_UPDATE_MODEL_EVENT = "update:modelValue";
-const SELECTION_CHANGE_EVENT = "change";
 function useSelection(props, emit) {
   const modelValue = toRef(props, "modelValue");
   const multiple = toRef(props, "multiple");
@@ -118,8 +116,8 @@ function useSelection(props, emit) {
       if (!cascaderItem.children || cascaderItem.children.length === 0) {
         internalSelectedValues.value = currentPath;
         internalExpandedPath.value = currentPath;
-        emit(SELECTION_UPDATE_MODEL_EVENT, internalSelectedValues.value);
-        emit(SELECTION_CHANGE_EVENT, internalSelectedValues.value);
+        emit("update:modelValue", internalSelectedValues.value);
+        emit("change", internalSelectedValues.value);
         onSelectCallback == null ? void 0 : onSelectCallback();
       } else {
         internalExpandedPath.value = currentPath;
@@ -140,8 +138,8 @@ function useSelection(props, emit) {
       }
       internalSelectedValues.value = newSelectedValues;
       const emittedValue = multiple.value ? newSelectedValues : newSelectedValues[0] || null;
-      emit(SELECTION_UPDATE_MODEL_EVENT, emittedValue);
-      emit(SELECTION_CHANGE_EVENT, emittedValue);
+      emit("update:modelValue", emittedValue);
+      emit("change", emittedValue);
       onSelectCallback == null ? void 0 : onSelectCallback();
     }
   };
@@ -149,8 +147,8 @@ function useSelection(props, emit) {
     if (props.disabled || mode.value !== "dropdown" || !multiple.value) return;
     const newSelectedValues = internalSelectedValues.value.filter((val) => val !== itemToRemove.value);
     internalSelectedValues.value = newSelectedValues;
-    emit(SELECTION_UPDATE_MODEL_EVENT, newSelectedValues);
-    emit(SELECTION_CHANGE_EVENT, newSelectedValues);
+    emit("update:modelValue", newSelectedValues);
+    emit("change", newSelectedValues);
   };
   const handleClear = () => {
     if (props.disabled) return;
@@ -164,8 +162,8 @@ function useSelection(props, emit) {
     } else {
       emittedValue = null;
     }
-    emit(SELECTION_UPDATE_MODEL_EVENT, emittedValue);
-    emit(SELECTION_CHANGE_EVENT, emittedValue);
+    emit("update:modelValue", emittedValue);
+    emit("change", emittedValue);
   };
   const displayLabel = computed(() => {
     if (mode.value === "cascader") {
@@ -231,6 +229,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     placeholder: { default: "请选择" },
     clearable: { type: Boolean, default: false }
   },
+  emits: ["update:modelValue", "change"],
   setup(__props, { emit: __emit }) {
     const props = __props;
     const emit = __emit;

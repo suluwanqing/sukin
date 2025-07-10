@@ -1,5 +1,4 @@
 import type { CardStackItem } from './type';
-import { CLICK_EVENT, HOVER_EVENT } from './constant';
 type EmitFn = (event: any, ...args: any[]) => void;
 
 export const handleCardClick = (
@@ -8,7 +7,7 @@ export const handleCardClick = (
     index: number,
     emit: EmitFn
 ) => {
-    emit(CLICK_EVENT, event, item, index);
+    emit('click', event, item, index);
 };
 
 export const handleCardHover = (
@@ -17,5 +16,5 @@ export const handleCardHover = (
     index: number,
     emit: EmitFn
 ) => {
-    emit(HOVER_EVENT, event, item, index);
+    emit('hover', event, item, index);
 };

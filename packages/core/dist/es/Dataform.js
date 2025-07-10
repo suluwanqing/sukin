@@ -1,7 +1,6 @@
 import { c as createNamespace, _ as _export_sfc, w as withInstall } from "./utils.js";
 import { defineComponent, ref, reactive, watch, createElementBlock, openBlock, normalizeStyle, normalizeClass, unref, createElementVNode, Fragment, renderList, toDisplayString, createBlock, createCommentVNode, withDirectives, vModelDynamic } from "vue";
 import { S as SuAlert } from "./Alert.js";
-const DATDAFORM_EVENT_SUBMIT = "submit";
 const internalValidators = {
   email: (options) => (value) => {
     const msg = options.message || "请输入有效的电子邮件地址";
@@ -79,7 +78,7 @@ const handleSwitchForm = (formType, props, state) => {
 };
 const handleSubmit = (section, state, emit) => {
   if (!validateFields(section.fields || [], state)) return;
-  emit(DATDAFORM_EVENT_SUBMIT, section.title, { ...state.formData });
+  emit("submit", section.title, { ...state.formData });
 };
 const handleNextStep = async (stepInfo, section, state, emit) => {
   if (!validateFields(stepInfo.fields, state)) return;
@@ -97,7 +96,7 @@ const handleNextStep = async (stepInfo, section, state, emit) => {
   }
   const isLastStep = section.step_model && state.currentStep.value === section.step_model.All_Steps;
   if (isLastStep) {
-    emit(DATDAFORM_EVENT_SUBMIT, section.title, { ...state.formData });
+    emit("submit", section.title, { ...state.formData });
   } else {
     state.currentStep.value++;
   }
@@ -129,6 +128,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     size: { default: "medium" },
     direction: { default: "vertical" }
   },
+  emits: ["submit", "close"],
   setup(__props, { expose: __expose, emit: __emit }) {
     const bem = createNamespace("form-panel");
     const props = __props;

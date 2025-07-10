@@ -382,7 +382,6 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
 });
 const Listform = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-3ae7fea2"]]);
 const SuListform = withInstall(Listform);
-const SELECTION_CHANGE = "selection-change";
 function handleToggleRow(emit, props, state, row) {
   if (!props.selectable) return;
   const key = props.rowKey ? row[props.rowKey] : void 0;
@@ -392,7 +391,7 @@ function handleToggleRow(emit, props, state, row) {
   } else {
     state.selectedRowKeys.add(key);
   }
-  emit(SELECTION_CHANGE, Array.from(state.selectedRowKeys));
+  emit("selection-change", Array.from(state.selectedRowKeys));
 }
 function handleToggleAllOnPage(emit, props, state, isAllSelected, processedData) {
   if (!props.selectable || !processedData.length) return;
@@ -404,7 +403,7 @@ function handleToggleAllOnPage(emit, props, state, isAllSelected, processedData)
       state.selectedRowKeys.add(key);
     }
   });
-  emit(SELECTION_CHANGE, Array.from(state.selectedRowKeys));
+  emit("selection-change", Array.from(state.selectedRowKeys));
 }
 function handleToggleColumn(state, colValue) {
   const index = state.visibleColumns.indexOf(colValue);

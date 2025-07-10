@@ -11,14 +11,14 @@
 import { computed, defineProps, defineEmits } from 'vue';
 import { createNamespace } from '@sukin/utils';
 import type { ItemProps, DragDropItem } from './type';
-import { ITEM_REMOVE_EVENT } from './constants';
+
 
 const props = withDefaults(defineProps<ItemProps>(), {
     removable: false,
 });
 
 const emit = defineEmits<{
-    (e: typeof ITEM_REMOVE_EVENT, item: DragDropItem): void;
+    (e: 'remove', item: DragDropItem): void;
 }>();
 
 const bem = createNamespace('item');
@@ -28,7 +28,7 @@ const displayText = computed(() => {
 });
 
 const handleRemove = () => {
-    emit(ITEM_REMOVE_EVENT, props.item);
+    emit('remove', props.item);
 };
 </script>
 <style scoped>

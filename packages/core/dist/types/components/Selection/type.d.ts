@@ -1,4 +1,3 @@
-import { SELECTION_CHANGE_EVENT, SELECTION_UPDATE_MODEL_EVENT } from './constant';
 export interface CascaderOption {
     label: string;
     value: string;
@@ -30,8 +29,8 @@ export interface SuSelectionProps {
     clearable?: boolean;
 }
 export interface SelectionEmits {
-    (event: typeof SELECTION_UPDATE_MODEL_EVENT, value: string | string[] | undefined | null): void;
-    (event: typeof SELECTION_CHANGE_EVENT, value: string | string[] | undefined | null): void;
+    (event: 'update:modelValue', value: string | string[] | undefined | null): void;
+    (event: 'change', value: string | string[] | undefined | null): void;
 }
 export interface SuOptionProps {
     item: OptionDataItem;

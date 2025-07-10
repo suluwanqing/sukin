@@ -1,12 +1,10 @@
 import { defineComponent, useModel, computed, ref, onMounted, onBeforeUnmount, watch, createElementBlock, openBlock, normalizeStyle, normalizeClass, createElementVNode, createCommentVNode, unref, Fragment, renderList, renderSlot, toDisplayString } from "vue";
 import { c as createNamespace, _ as _export_sfc, w as withInstall } from "./utils.js";
-const CLICK_EVENT = "click";
-const HOVER_EVENT = "hover";
 const handleCardClick = (event, item, index, emit) => {
-  emit(CLICK_EVENT, event, item, index);
+  emit("click", event, item, index);
 };
 const handleCardHover = (event, item, index, emit) => {
-  emit(HOVER_EVENT, event, item, index);
+  emit("hover", event, item, index);
 };
 const _hoisted_1 = ["onClick", "onMouseenter"];
 const _hoisted_2 = ["onClick"];
