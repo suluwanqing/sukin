@@ -3,7 +3,7 @@ name: Deploy VitePress site to Pages
 on:
   push:
     branches: [main]
-  workflow_dispatch:
+  workflow_dispatch:a
 
 permissions:
   contents: read
@@ -40,8 +40,7 @@ jobs:
       - name: Install dependencies
         working-directory: docs # 关键修改：指定 docs 目录
         run: |
-          pnpm install --frozen-lockfile
-
+         run: pnpm install
       - name: Build with VitePress
         working-directory: docs
         run: pnpm run docs:build
